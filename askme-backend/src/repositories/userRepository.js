@@ -2,14 +2,22 @@ const {User} = require('../entities/user');
 const mongoose = require('mongoose');
 
 class UserRepository {
-    static mongoose = null;
+    static _mongooseInstance = null;
+    static get mongoose() {
+        if(this._mongooseInstance==null) {
+            throw new Error("UserRepository not inited");
+        }
+
+        return this._mongooseInstance;
+    }
+
     static schema = null;
 
     /**
      * @param {mongoose.Mongoose} mongooseInstance
      */
     static init(mongooseInstance) {
-        this.mongoose = mongooseInstance;
+        this._mongooseInstance = mongooseInstance;
         this.schema = new mongooseInstance.Schema(User.getSchema());
     }
 

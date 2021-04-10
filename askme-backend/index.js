@@ -1,15 +1,58 @@
-// const express = require('express');
-// const app = express();
-// const port = 3000;
-
-// app.get('/', (req, res) => {
-//   res.send('Hello World!');
-// });
-
-// app.listen(port, () => {
-//   console.log(`Example app listening at http://localhost:${port}`);
-// });
-
+const {MongooseProvider} = require("./src/database/initMongoose");
 const {initAllRepositories} = require('./src/repositories/initRepositories');
+const {UserRepository} = require('./src/repositories/userRepository');
+const {User} = require('./src/entities/user');
 
-initAllRepositories();
+class StartupChain {
+    static started = false;
+    static completed = false;
+    static listeners = [];
+
+    static start() {
+        this.started = true;
+        this.initMongoose();
+    }
+
+    static initMongoose() {
+        if (MongooseProvider.initMongooseInstance()) {
+            MongooseProvider.whenFailed(_ => {
+                console.log("MongoDB failed to connected!");
+            });
+    
+            MongooseProvider.whenConnected(_ => {
+                console.log("MongoDB connected successfully!");
+                this.initRepositories();
+            });
+        }
+    }
+    
+    static initRepositories() {
+        console.log("Initing repositories...")
+        initAllRepositories(MongooseProvider.getRequiredMongooseInstance());
+        this.complete();
+    }
+    
+    static complete() {
+        this.completed = true;
+        this.listeners.filter(({name})=> name=="completed").forEach(({callback}) => callback.apply(this));
+    }
+
+    static whenCompleted(callback) {
+        this.listeners.push({
+            name: "completed",
+            callback: callback,
+        })
+
+        if(this.completed) {
+            this.listeners.filter(({name})=> name=="completed").forEach(({callback}) => callback.apply(this));
+        }
+    }
+}
+
+StartupChain.start();
+StartupChain.whenCompleted(_ => {
+    console.log("Saving...");
+    var user = new User("Tito", "tito_");
+    UserRepository.save(user);
+    console.log("Saved");
+});
