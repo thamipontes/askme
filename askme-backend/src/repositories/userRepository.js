@@ -25,6 +25,10 @@ class UserRepository {
      * @param {User} user 
      */
     static save(user) {
+        if(!user.isValid()) {
+            throw new Error("The user is invalid!!");
+        }
+
         var userModel = this.mongoose.model('User', this.schema);
         var userInstance = new userModel(user.toObject());
 

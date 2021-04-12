@@ -27,8 +27,6 @@ class MongooseProvider {
 
             this.listeners.filter(({name}) => name=="connected").forEach(({callback}) => callback.apply(this))
         });
-
-        return true;
     }
 
     static whenFailed(callback) {

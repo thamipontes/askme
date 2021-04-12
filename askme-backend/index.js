@@ -1,5 +1,6 @@
-const {MongooseProvider} = require("./src/database/initMongoose");
+const {MongooseProvider} = require('./src/database/mongooseProvider');
 const {initAllRepositories} = require('./src/repositories/initRepositories');
+const ApiServerProvider = require('./src/apis/apiServerProvider');
 const {UserRepository} = require('./src/repositories/userRepository');
 const {User} = require('./src/entities/user');
 
@@ -14,21 +15,26 @@ class StartupChain {
     }
 
     static initMongoose() {
-        if (MongooseProvider.initMongooseInstance()) {
-            MongooseProvider.whenFailed(_ => {
-                console.log("MongoDB failed to connected!");
-            });
-    
-            MongooseProvider.whenConnected(_ => {
-                console.log("MongoDB connected successfully!");
-                this.initRepositories();
-            });
-        }
+        MongooseProvider.initMongooseInstance()
+        MongooseProvider.whenFailed(_ => {
+            console.log("MongoDB failed to connected!");
+        });
+
+        MongooseProvider.whenConnected(_ => {
+            console.log("MongoDB connected successfully!");
+            this.initRepositories();
+        });
     }
     
     static initRepositories() {
         console.log("Initing repositories...")
         initAllRepositories(MongooseProvider.getRequiredMongooseInstance());
+        this.initApis();
+    }
+
+    static initApis() {
+        ApiServerProvider.initApis();
+        ApiServerProvider.startServer();
         this.complete();
     }
     
