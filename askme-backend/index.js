@@ -1,5 +1,5 @@
 const {MongooseProvider} = require('./src/database/mongooseProvider');
-const {initAllRepositories} = require('./src/repositories/initRepositories');
+const initAllRepositories = require('./src/repositories/initRepositories');
 const ApiServerProvider = require('./src/apis/apiServerProvider');
 
 class StartupChain {

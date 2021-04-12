@@ -6,4 +6,4 @@ function initAllRepositories(mongoose) {
     console.log("UserRepository inited successfully!");
 }
 
-module.exports = { initAllRepositories };
+module.exports = initAllRepositories;
