@@ -6,6 +6,7 @@ class ApiServerProvider {
     static _app = express();
 
     static initApis() {
+        this._app.use(express.json());
         config.apis.forEach(({name, base, router}) => {
             console.log(`Adding api: ${name}...`);
             this._app.use(base, router);
