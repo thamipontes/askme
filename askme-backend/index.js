@@ -1,8 +1,6 @@
 const {MongooseProvider} = require('./src/database/mongooseProvider');
 const {initAllRepositories} = require('./src/repositories/initRepositories');
 const ApiServerProvider = require('./src/apis/apiServerProvider');
-const {UserRepository} = require('./src/repositories/userRepository');
-const {User} = require('./src/entities/user');
 
 class StartupChain {
     static started = false;
@@ -56,9 +54,3 @@ class StartupChain {
 }
 
 StartupChain.start();
-StartupChain.whenCompleted(_ => {
-    console.log("Saving...");
-    var user = new User("Tito", "tito_");
-    UserRepository.save(user);
-    console.log("Saved");
-});

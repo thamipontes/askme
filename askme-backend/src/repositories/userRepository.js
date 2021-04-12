@@ -1,4 +1,4 @@
-const {User} = require('../entities/user');
+const User = require('../entities/user');
 const mongoose = require('mongoose');
 
 class UserRepository {
@@ -12,6 +12,7 @@ class UserRepository {
     }
 
     static schema = null;
+    static model = null;
 
     /**
      * @param {mongoose.Mongoose} mongooseInstance
@@ -19,25 +20,37 @@ class UserRepository {
     static init(mongooseInstance) {
         this._mongooseInstance = mongooseInstance;
         this.schema = new mongooseInstance.Schema(User.getSchema());
+        this.model = this.mongoose.model('User', this.schema);
     }
 
     /**
      * @param {User} user 
      */
-    static save(user) {
-        if(!user.isValid()) {
-            throw new Error("The user is invalid!!");
+    static async save(user) {
+        var userInstance = new this.model(user.toObject());
+
+        var result = null;
+        try {
+            var userSaved = await userInstance.save();
+            
+            result = new User(userSaved.name, userSaved.password);
+            result.setId(userSaved._id);
+        } catch {
+            throw new Error("Failed to save user");
         }
 
-        var userModel = this.mongoose.model('User', this.schema);
-        var userInstance = new userModel(user.toObject());
+        return result;
+    }
 
-        userInstance.save((err, user) => {
-            if(err);
-        });
+    static async getUserByName(name) {
+        try{
+            var result = await this.model.findOne({name: name});
+        } catch {
+            throw new Error("Failed to get user by name");
+        }
+
+        return result;
     }
 }
 
-module.exports = {
-    UserRepository
-};
+module.exports = UserRepository;

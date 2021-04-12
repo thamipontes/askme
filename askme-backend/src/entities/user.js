@@ -32,6 +32,7 @@ class User {
      */
     toObject() {
         return {
+            id: this.id,
             name: this.name, 
             password: this.password,
         }
@@ -42,11 +43,11 @@ class User {
      * @returns {boolean}
      */
     isValid() {
-        if(this.name.length > this.nameMaxLength || this.name.length < this.nameMinLength) {
+        if(this.name.length > User.nameMaxLength || this.name.length < User.nameMinLength) {
             return false;
         }
 
-        if(this.password.length > this.passwordMaxLength || this.password.length < this.passwordMinLength) {
+        if(this.password.length > User.passwordMaxLength || this.password.length < User.passwordMinLength) {
             return false;
         }
 
@@ -54,4 +55,4 @@ class User {
     }
 }
 
-module.exports = { User };
+module.exports = User;

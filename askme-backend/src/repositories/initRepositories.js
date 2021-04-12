@@ -1,4 +1,4 @@
-const { UserRepository } = require('./userRepository');
+const UserRepository = require('./userRepository');
 
 function initAllRepositories(mongoose) {
     console.log("Initing UserRepository...");
