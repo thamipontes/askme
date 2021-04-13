@@ -15,6 +15,7 @@ class UserRepository {
     static model = null;
 
     /**
+     * Gera schema e model do mongoose para a entidade User
      * @param {mongoose.Mongoose} mongooseInstance
      */
     static init(mongooseInstance) {
@@ -24,7 +25,9 @@ class UserRepository {
     }
 
     /**
+     * Salva um usuário no banco e retorna uma instância de User como o resultado
      * @param {User} user 
+     * @returns {User}
      */
     static async save(user) {
         var userInstance = new this.model(user.toObject());
@@ -42,6 +45,11 @@ class UserRepository {
         return result;
     }
 
+    /**
+     * Obtem um usuário pelo nome
+     * @param {string} name 
+     * @returns {User}
+     */
     static async getUserByName(name) {
         try{
             var result = await this.model.findOne({name: name});
