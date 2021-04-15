@@ -3,77 +3,120 @@ const mongoose = require('mongoose');
 // Change to mongoose.config when using in production
 const config = require('./mongooseDev.config');
 
+/**
+ * Provider for the mongoose instance
+ */
 class MongooseProvider {
-    static _mongooseInstance = null;
-    static connected = false;
-    static error = null;
-    static listeners = [];
-    
-    static initMongooseInstance() {
-        mongoose.connect(config.connectionString, {useNewUrlParser: true, useUnifiedTopology: true});
-        this._mongooseInstance = mongoose;
+  /**
+   * Inits the mongoose instance and connects it
+   */
+  static initMongooseInstance() {
+    mongoose.connect(config.connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    this._mongooseInstance = mongoose;
 
-        var db = mongoose.connection;
+    const db = mongoose.connection;
 
-        db.on('error', _ => {
-            this.connected = false;
-            this.error = MongooseProviderException(MongooseProviderExceptionTypes.FailedToConnect);
+    db.on('error', () => {
+      this.connected = false;
+      this.error = mongooseProviderException(
+          MongooseProviderExceptionTypes.FailedToConnect);
 
-            this.listeners.filter(({name}) => name=="failed").forEach(({callback}) => callback.apply(this))
-        });
+      this.listeners.filter(({
+        name,
+      }) => name == 'failed').forEach(({
+        callback,
+      }) => callback.apply(this));
+    });
 
-        db.once('open', _ => {
-            this.connected = true;
+    db.once('open', () => {
+      this.connected = true;
 
-            this.listeners.filter(({name}) => name=="connected").forEach(({callback}) => callback.apply(this))
-        });
+      this.listeners.filter(({
+        name,
+      }) => name == 'connected').forEach(({
+        callback,
+      }) => callback.apply(this));
+    });
+  }
+
+  /**
+   * Triggers the given callback if and when the initialization fails
+   * @param {*} callback
+   */
+  static whenFailed(callback) {
+    this.listeners.push({
+      name: 'failed',
+      callback: callback,
+    });
+
+    if (!this.connected && this.error) {
+      this.listeners.filter(({
+        name,
+      }) => name == 'failed').forEach(({
+        callback,
+      }) => callback.apply(this));
+    }
+  }
+
+  /**
+   * Triggers the given callback if and when the initialization finishes
+   * @param {*} callback
+   */
+  static whenConnected(callback) {
+    this.listeners.push({
+      name: 'connected',
+      callback: callback,
+    });
+
+    if (this.connected && !this.error) {
+      this.listeners.filter(({
+        name,
+      }) => name == 'connected').forEach(({
+        callback,
+      }) => callback.apply(this));
+    }
+  }
+
+  /**
+   * Returns the current mongoose instance
+   * @return {mongoose} Mongoose instance
+   */
+  static getRequiredMongooseInstance() {
+    if (this._mongooseInstance === null) {
+      throw mongooseProviderException(MongooseProviderExceptionTypes.NotInited);
     }
 
-    static whenFailed(callback) {
-        this.listeners.push({
-            name: "failed",
-            callback: callback,
-        });
-
-        if(!this.connected && this.error) {
-            this.listeners.filter(({name}) => name=="failed").forEach(({callback}) => callback.apply(this));
-        }
-    }
-
-    static whenConnected(callback) {
-        this.listeners.push({
-            name: "connected",
-            callback: callback,
-        });
-
-        if(this.connected && !this.error) {
-            this.listeners.filter(({name}) => name=="connected").forEach(({callback}) => callback.apply(this));
-        }
-    }
-    
-    static getRequiredMongooseInstance() {
-        if(this._mongooseInstance === null) {
-            throw MongooseProviderException(MongooseProviderExceptionTypes.NotInited);
-        }
-
-        return this._mongooseInstance;
-    }
+    return this._mongooseInstance;
+  }
 };
 
 const MongooseProviderExceptionTypes = {
-    NotInited: "MongooseProvider was not inited yet",
-    FailedToConnect: "MongooseProvider failed to connect to the database",
+  NotInited: 'MongooseProvider was not inited yet',
+  FailedToConnect: 'MongooseProvider failed to connect to the database',
 };
 
-function MongooseProviderException(message) {
-    var error = new Error();
-    error.name = "MongooseProviderError";
-    error.message = message;
-    return error;
+/**
+ * Returns a proper error for MongooseProvider
+ * @param {string} message
+ * @return {Error} Filled error
+ */
+function mongooseProviderException(message) {
+  const error = new Error();
+  error.name = 'MongooseProviderError';
+  error.message = message;
+  return error;
 };
+
+MongooseProvider._mongooseInstance = null;
+MongooseProvider.connected = false;
+MongooseProvider.error = null;
+MongooseProvider.listeners = [];
 
 module.exports = {
-    MongooseProviderException,
-    MongooseProviderExceptionTypes,
-    MongooseProvider,
+  MongooseProviderException,
+  MongooseProviderExceptionTypes,
+  MongooseProvider,
 };
