@@ -1,5 +1,5 @@
 class User {
-    static nameMinLength = 3;
+    static nameMinLength = 4;
     static nameMaxLength = 20;
     static passwordMinLength = 8;
     static passwordMaxLength = 20;
