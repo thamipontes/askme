@@ -116,7 +116,7 @@ MongooseProvider.error = null;
 MongooseProvider.listeners = [];
 
 module.exports = {
-  MongooseProviderException,
+  mongooseProviderException,
   MongooseProviderExceptionTypes,
   MongooseProvider,
 };

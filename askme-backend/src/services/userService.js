@@ -15,18 +15,20 @@ class UserService {
    * @return {User}
    */
   static async createUser(userCreateCommand) {
-    if (!userCreateCommand.isValid() ||
-      userCreateCommand.passwordConfirmation != userCreateCommand.password) {
+    if (!userCreateCommand.isValid()) {
+      console.log('Invalid');
       return null;
     }
 
-    const existingUser = await UserRepository.getUserByName(user.name);
+    const existingUser = await UserRepository.getUserByName(
+        userCreateCommand.name);
 
     if (existingUser != null) {
       return null;
     }
 
-    const result = await UserRepository.save(user);
+    const result = await UserRepository.save(
+        new User(userCreateCommand.name, userCreateCommand.password));
 
     return result;
   }

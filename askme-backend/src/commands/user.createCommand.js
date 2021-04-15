@@ -21,21 +21,25 @@ class UserCreateCommand {
    * @return {boolean} True if user is valid
    */
   isValid() {
+    if (!this.name || !this.password || !this.passwordConfirmation) {
+      console.log('null');
+      console.log(this.name);
+      console.log(this.password);
+      console.log(this.passwordConfirmation);
+      return false;
+    }
+
     if (this.name.length > User.nameMaxLength ||
       this.name.length < User.nameMinLength) {
+      console.log('name');
       return false;
     }
 
     if (this.password.length > User.passwordMaxLength ||
         this.password.length < User.passwordMinLength) {
+      console.log('name');console.log('pswd');
       return false;
     }
-
-    if (this.passwordConfirmation.length > User.passwordMaxLength ||
-      this.passwordConfirmation.length < User.passwordMinLength) {
-      return false;
-    }
-
 
     return true;
   }

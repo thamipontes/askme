@@ -6,11 +6,13 @@ const UserCreateCommand = require('../commands/user.createCommand');
 // eslint-disable-next-line new-cap
 const userRouter = express.Router();
 
-userRouter.post('/create', async (req, res) => {
+userRouter.post('', async (req, res) => {
+  console.log(res);
   const result = await UserService.createUser(
       new UserCreateCommand(req.body.name,
-          req.body.password, req.passwordConfirmation),
+          req.body.password, req.body.passwordConfirmation),
   );
+
 
   if (result==null) {
     res.sendStatus(400);

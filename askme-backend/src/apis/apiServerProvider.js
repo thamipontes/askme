@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 const config = require('./api.config');
 
@@ -11,6 +12,7 @@ class ApiServerProvider {
    */
   static initApis() {
     this._app.use(express.json());
+    this._app.use(cors());
     config.apis.forEach(({name, base, router}) => {
       console.log(`Adding api: ${name}...`);
       this._app.use(base, router);
