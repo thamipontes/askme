@@ -1,7 +1,7 @@
 ---
 name: Make our lives easier
 about: Tarefas de devs para devs
-title: "{DEV}"
+title: "{DEV} "
 labels: make-our-lives-easier
 assignees: ''
 
