@@ -17,7 +17,10 @@ class FormInput extends Component {
     return (
       <Form.Group>
         <Form.Label>{this.props.label}</Form.Label>
-        <Form.Control type={this.props.type}></Form.Control>
+        <Form.Control type={this.props.type}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          name={this.props.name}></Form.Control>
       </Form.Group>
     );
   }
@@ -26,6 +29,9 @@ class FormInput extends Component {
 FormInput.propTypes = {
   label: PropTypes.string,
   type: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.any,
+  onChange: PropTypes.func,
 };
 
 export default FormInput;
