@@ -18,5 +18,5 @@ jobs:
             - uses: artiomtr/jest-coverage-report-action@v1.2
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
-                  test_script: cd askme-backend && npx jest --silent --ci --coverage --coverageReporters="text" --coverageReporters="text-summary"
+                  test_script: npx jest --silent --ci --coverage --coverageReporters="text" --coverageReporters="text-summary" ./askme-backend
                   #   threshold: 80 # optional parameter
