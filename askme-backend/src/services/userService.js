@@ -1,9 +1,11 @@
 
 // eslint-disable-next-line no-unused-vars
-const UserCreateCommand = require('../commands/user.createCommand');
+const UserCreateCommand = require('../models/user.createCommand');
 // eslint-disable-next-line no-unused-vars
 const User = require('../entities/user');
 const UserRepository = require('../repositories/userRepository');
+const ValidationException = require('./validationException');
+const ServiceException = require('./serviceException');
 
 /**
  * Service for operations with users;
@@ -16,19 +18,23 @@ class UserService {
    */
   static async createUser(userCreateCommand) {
     if (!userCreateCommand.isValid()) {
-      console.log('Invalid');
-      return null;
+      throw new ValidationException();
     }
 
-    const existingUser = await UserRepository.getUserByName(
-        userCreateCommand.name);
+    const existingUser = await UserRepository.getUserByEmail(
+        userCreateCommand.email);
 
     if (existingUser != null) {
-      return null;
+      throw new ServiceException('Usuário com este email já cadastrado');
     }
 
     const result = await UserRepository.save(
-        new User(userCreateCommand.name, userCreateCommand.password));
+        new User(
+            userCreateCommand.email,
+            userCreateCommand.name,
+            userCreateCommand.password,
+        ),
+    );
 
     return result;
   }

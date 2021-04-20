@@ -39,10 +39,14 @@ class UserRepository {
     try {
       const userSaved = await userInstance.save();
 
-      result = new User(userSaved.name, userSaved.password);
+      result = new User(
+          userSaved.email,
+          userSaved.name,
+          userSaved.password,
+      );
       result.setId(userSaved._id);
     } catch {
-      throw new Error('Failed to save user');
+      throw new Error('Falha ao salvar usuário');
     }
 
     return result;
@@ -59,7 +63,24 @@ class UserRepository {
     try {
       result = await this.Model.findOne({name: name});
     } catch {
-      throw new Error('Failed to get user by name');
+      throw new Error('Falha ao obter usuário por nome');
+    }
+
+    return result;
+  }
+
+  /**
+   * Obtem um usuário pelo email
+   * @param {string} email
+   * @return {User}
+   */
+  static async getUserByEmail(email) {
+    let result = null;
+
+    try {
+      result = await this.Model.findOne({email: email});
+    } catch {
+      throw new Error('Falha ao obter usuário pelo email');
     }
 
     return result;
