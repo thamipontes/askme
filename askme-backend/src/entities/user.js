@@ -1,7 +1,7 @@
 /**
  * Representa um usuário no sistema
  */
-class User {
+class User { // issue: I-12
   /**
    * Retorna um objeto indicando os tipos de
    * cada campo de usuário para uso na persistência

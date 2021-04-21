@@ -16,7 +16,7 @@ class UserService {
    * @param {UserCreateCommand} userCreateCommand
    * @return {User}
    */
-  static async createUser(userCreateCommand) {
+  static async createUser(userCreateCommand) { // issue: I-12
     if (!userCreateCommand.isValid()) {
       throw new ValidationException();
     }

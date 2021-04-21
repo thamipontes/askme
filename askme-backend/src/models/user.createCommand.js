@@ -3,7 +3,7 @@ const User = require('../entities/user');
 /**
  * Command for creating a user. Should be passed as argument to UserService.
  */
-class UserCreateCommand {
+class UserCreateCommand { // issue: I-12
   /**
    * Constructor for user command
    * @param {string} email

@@ -1,4 +1,5 @@
 const User = require('./user');
+// issue: I-12
 
 test('isValid should return true when user is valid', () => {
   const user = new User('email', 'test', '123456789');

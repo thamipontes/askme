@@ -6,6 +6,7 @@ const UserCreateCommand = require('../models/user.createCommand');
 // eslint-disable-next-line new-cap
 const userRouter = express.Router();
 
+// issue: I-12
 userRouter.post('', async (req, res, next) => {
   let result = null;
   try {

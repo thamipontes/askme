@@ -32,7 +32,7 @@ class UserRepository {
    * @param {User} user
    * @return {User}
    */
-  static async save(user) {
+  static async save(user) { // issue: I-12
     const userInstance = new this.Model(user.toObject());
 
     let result = null;
@@ -57,7 +57,7 @@ class UserRepository {
    * @param {string} email
    * @return {User}
    */
-  static async getUserByEmail(email) {
+  static async getUserByEmail(email) { // issue: I-12
     let result = null;
 
     try {
