@@ -24,5 +24,21 @@ export default class UserService {
         },
     );
   }
+
+  /**
+   * Envia uma requisição de login
+   * @param {string} email
+   * @param {string} password
+   */
+  static async login(email, password) {
+    await API.post(`${apiRoute}/login`, {
+      email: email,
+      password: password,
+    }).then(
+        (res) => {
+          return res;
+        },
+    );
+  }
 }
 
