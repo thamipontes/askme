@@ -7,12 +7,14 @@ const apiRoute = '/api/users';
 export default class UserService {
   /**
    * Realiza requisição para registrar um usuário
+   * @param {string} email
    * @param {string} name
    * @param {string} password
    * @param {string} passwordConfirmation
    */
-  static async createUser(name, password, passwordConfirmation) {
+  static async createUser(email, name, password, passwordConfirmation) {
     await API.post(`${apiRoute}`, {
+      email: email,
       name: name,
       password: password,
       passwordConfirmation: passwordConfirmation,

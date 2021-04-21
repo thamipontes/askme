@@ -19,6 +19,7 @@ class SignUpPage extends React.Component {
     super(props);
 
     this.state = {
+      email: '',
       name: '',
       password: '',
       passwordConfirmation: '',
@@ -48,6 +49,7 @@ class SignUpPage extends React.Component {
    */
   async handleSubmit(event) {
     await UserService.createUser(
+        this.state.email,
         this.state.name,
         this.state.password,
         this.state.passwordConfirmation,
@@ -66,7 +68,15 @@ class SignUpPage extends React.Component {
         <Row>
           <Col className="d-flex justify-content-center">
             <BoxedForm title="Cadastre-se"
-              submitText="Cadastrar!" onSubmit={this.handleSubmit}>
+              submitText="Cadastrar!"
+              alternativeLinkRoute="/login"
+              alternativeLinkText="Já tenho uma conta"
+              onSubmit={this.handleSubmit}>
+              <FormInput label="Email"
+                name="email"
+                type="text"
+                value={this.state.email}
+                onChange={this.handleChange}></FormInput>
               <FormInput label="Nome"
                 name="name"
                 type="text"

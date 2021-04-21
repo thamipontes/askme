@@ -63,6 +63,10 @@ class UserRepository {
     try {
       const queryResult = await this.Model.findOne({email: email});
 
+      if (queryResult==null) {
+        return null;
+      }
+
       result = new User(
           queryResult.email,
           queryResult.name,
