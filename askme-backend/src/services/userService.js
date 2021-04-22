@@ -24,7 +24,7 @@ class UserService {
     const existingUser = await UserRepository.getUserByEmail(
         userCreateCommand.email);
 
-    if (existingUser != null) {
+    if (existingUser) {
       throw new ServiceException('Usuário com este email já cadastrado');
     }
 
