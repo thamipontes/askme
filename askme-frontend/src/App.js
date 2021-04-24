@@ -8,6 +8,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
+import LoginPage from './components/pages/loginPage';
 
 /**
 * Gets the App to render
@@ -20,6 +21,9 @@ function App() {
       <Switch>
         <Route path="/signup">
           <SignUpPage></SignUpPage>
+        </Route>
+        <Route path="/login">
+          <LoginPage></LoginPage>
         </Route>
       </Switch>
     </Router>

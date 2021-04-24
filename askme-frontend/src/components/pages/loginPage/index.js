@@ -7,12 +7,12 @@ import Col from 'react-bootstrap/Col';
 import UserService from '../../../services/user.service';
 
 /**
- * Gets the SignUpPage Component
- * @return {React.Component} SignUpPage Component
+ * Componente da página de login
+ * @return {React.Component}
  */
-class SignUpPage extends React.Component {
+class LoginPage extends React.Component {
   /**
-   * Construtor para SignUpPage
+   * Construtor para LoginPage
    * @param {*} props
    */
   constructor(props) {
@@ -20,9 +20,7 @@ class SignUpPage extends React.Component {
 
     this.state = {
       email: '',
-      name: '',
       password: '',
-      passwordConfirmation: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -48,11 +46,9 @@ class SignUpPage extends React.Component {
    * @param {*} event
    */
   async handleSubmit(event) {
-    await UserService.createUser(
+    await UserService.login(
         this.state.email,
-        this.state.name,
         this.state.password,
-        this.state.passwordConfirmation,
     );
 
     event.preventDefault();
@@ -67,30 +63,20 @@ class SignUpPage extends React.Component {
       <Container className="w-100">
         <Row>
           <Col className="d-flex justify-content-center">
-            <BoxedForm title="Cadastre-se"
-              submitText="Cadastrar!"
-              alternativeLinkRoute="/login"
-              alternativeLinkText="Já tenho uma conta"
+            <BoxedForm title="Login"
+              submitText="Entrar"
+              alternativeLinkRoute="/signup"
+              alternativeLinkText="Não tenho uma conta"
               onSubmit={this.handleSubmit}>
               <FormInput label="Email"
                 name="email"
                 type="text"
                 value={this.state.email}
                 onChange={this.handleChange}></FormInput>
-              <FormInput label="Nome"
-                name="name"
-                type="text"
-                value={this.state.name}
-                onChange={this.handleChange}></FormInput>
               <FormInput label="Senha"
                 name="password"
                 type="password"
                 value={this.state.password}
-                onChange={this.handleChange}></FormInput>
-              <FormInput label="Confirmação de senha"
-                name="passwordConfirmation"
-                type="password"
-                value={this.state.passwordConfirmation}
                 onChange={this.handleChange}></FormInput>
             </BoxedForm>
           </Col>
@@ -100,4 +86,4 @@ class SignUpPage extends React.Component {
   }
 }
 
-export default SignUpPage;
+export default LoginPage;

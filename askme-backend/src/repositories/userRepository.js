@@ -32,34 +32,49 @@ class UserRepository {
    * @param {User} user
    * @return {User}
    */
-  static async save(user) {
+  static async save(user) { // issue: I-12
     const userInstance = new this.Model(user.toObject());
 
     let result = null;
     try {
       const userSaved = await userInstance.save();
 
-      result = new User(userSaved.name, userSaved.password);
+      result = new User(
+          userSaved.email,
+          userSaved.name,
+          userSaved.password,
+      );
       result.setId(userSaved._id);
-    } catch {
-      throw new Error('Failed to save user');
+    } catch (err) {
+      throw new Error(`Falha ao salvar usuário: ${err}`);
     }
 
     return result;
   }
 
   /**
-   * Obtem um usuário pelo nome
-   * @param {string} name
+   * Obtem um usuário pelo email
+   * @param {string} email
    * @return {User}
    */
-  static async getUserByName(name) {
+  static async getUserByEmail(email) { // issue: I-12
     let result = null;
 
     try {
-      result = await this.Model.findOne({name: name});
-    } catch {
-      throw new Error('Failed to get user by name');
+      const queryResult = await this.Model.findOne({email: email});
+
+      if (queryResult==null) {
+        return null;
+      }
+
+      result = new User(
+          queryResult.email,
+          queryResult.name,
+          queryResult.password,
+      );
+      result.setId(queryResult._id);
+    } catch (err) {
+      throw new Error(`Falha ao obter usuário pelo email: ${err}`);
     }
 
     return result;
