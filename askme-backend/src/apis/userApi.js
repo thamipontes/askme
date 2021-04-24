@@ -48,6 +48,6 @@ const userLoginHandler = async (req, res, next) => {
     token: result,
   }));
 };
-userRouter.post('login', userLoginHandler);
+userRouter.post('/login', userLoginHandler);
 
 module.exports = userRouter;

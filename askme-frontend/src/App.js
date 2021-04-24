@@ -6,9 +6,10 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from 'react-router-dom';
 import LoginPage from './components/pages/loginPage';
+import ListCreatedQuizzesPage from
+  './components/pages/quiz/listCreatedQuizzesPage';
 
 /**
 * Gets the App to render
@@ -17,13 +18,15 @@ import LoginPage from './components/pages/loginPage';
 function App() {
   return (
     <Router>
-      <Redirect from="*" to="/signup"></Redirect>
       <Switch>
         <Route path="/signup">
           <SignUpPage></SignUpPage>
         </Route>
         <Route path="/login">
           <LoginPage></LoginPage>
+        </Route>
+        <Route path="/quiz">
+          <ListCreatedQuizzesPage></ListCreatedQuizzesPage>
         </Route>
       </Switch>
     </Router>

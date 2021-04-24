@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const AuthorizationException = require('./authorizationException');
 
 const jwtSecret = 's3cr3t_';
 
@@ -25,7 +26,11 @@ class TokenService {
    * @return {object} Token decodificado
    */
   static decodeToken(token) {
-    return jwt.verify(token, jwtSecret);
+    try {
+      return jwt.verify(token, jwtSecret);
+    } catch (err) {
+      throw new AuthorizationException('Token inválido', null);
+    }
   }
 }
 

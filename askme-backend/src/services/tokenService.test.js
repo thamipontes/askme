@@ -1,7 +1,4 @@
-// Using secret = "s3cr3t_"
-// Examples generated using jwt.io
-
-const {JsonWebTokenError} = require('jsonwebtoken');
+const AuthorizationException = require('./authorizationException');
 const TokenService = require('./tokenService');
 
 test('Should generate common token correctly', () => {
@@ -29,6 +26,6 @@ test('Should throw exception when token is invalid', () => {
     TokenService.decodeToken(token.replace('a', 'd'));
     fail('exception expected');
   } catch (err) {
-    expect(err instanceof JsonWebTokenError).toBe(true);
+    expect(err instanceof AuthorizationException).toBe(true);
   }
 });
