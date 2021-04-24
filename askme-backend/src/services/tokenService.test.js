@@ -36,6 +36,12 @@ test('getRoleFromToken should return correct role', () => {
   expect(TokenService.getRoleFromToken(token)).toBe('admin');
 });
 
+test('getUserIdFromToken should return correct userId', () => {
+  const token = TokenService.generateToken('userIdAdmin', true);
+
+  expect(TokenService.getUserIdFromToken(token)).toBe('userIdAdmin');
+});
+
 test('requireTokenToBeAdmin should throw when role is not admin', () => {
   const token = TokenService.generateToken('userIdAdmin', false);
 

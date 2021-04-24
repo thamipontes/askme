@@ -56,6 +56,15 @@ class TokenService {
   }
 
   /**
+   * Retorna o campo userId do token
+   * @param {string} token
+   * @return {string} UserId
+   */
+  static getUserIdFromToken(token) {
+    return this.decodeToken(token).userId;
+  }
+
+  /**
    * Lança uma exceção caso o token não seja de administrador
    * @param {string} token
    * @return {void}
