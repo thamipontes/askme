@@ -9,6 +9,7 @@ import UserService from '../../../services/user.service';
  * Gets the SignUpPage Component
  * @return {React.Component} SignUpPage Component
  */
+
 function SignUpPage() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');

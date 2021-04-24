@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './index.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import {Link} from 'react-router-dom';
 
 /**
  * Gets a BoxedForm Component
@@ -15,6 +16,7 @@ function BoxedForm(props) {
    * Renders the component
    * @return {Component}
    */
+
   return (
     <Form className="w-75 border border-primary p-3">
       <h1>{props.title}</h1>
@@ -30,6 +32,8 @@ BoxedForm.propTypes = {
   title: PropTypes.string,
   submitText: PropTypes.string,
   children: PropTypes.any,
+  alternativeLinkRoute: PropTypes.string,
+  alternativeLinkText: PropTypes.string,
   onSubmit: PropTypes.func,
 };
 
