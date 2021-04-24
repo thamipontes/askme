@@ -8,23 +8,23 @@ import Form from 'react-bootstrap/Form';
  * Gets a BoxedForm Component
  * @description BoxedForm is a box with a title and optional inputs
  * @return {React.Component} BoxedForm Component
+ * @param {*} props
  */
-class BoxedForm extends React.Component {
+function BoxedForm(props) {
   /**
    * Renders the component
    * @return {Component}
    */
-  render() {
-    return (
-      <Form className="w-75 border border-primary p-3">
-        <h1>{this.props.title}</h1>
-        {this.props.children}
-        <Button className="w-100"
-          onClick={this.props.onSubmit}>{this.props.submitText}</Button>
-      </Form>
-    );
-  }
+  return (
+    <Form className="w-75 border border-primary p-3">
+      <h1>{props.title}</h1>
+      {props.children}
+      <Button className="w-100"
+        onClick={props.onSubmit}>{props.submitText}</Button>
+    </Form>
+  );
 }
+
 
 BoxedForm.propTypes = {
   title: PropTypes.string,
