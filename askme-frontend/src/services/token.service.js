@@ -15,7 +15,8 @@ export default class TokenService {
    * @return {string} Token
    */
   static getAuthToken() {
-    return localStorage.getItem('askmeAuth');
+    const token = localStorage.getItem('askmeAuth');
+    return token? token : null;
   }
 }
 

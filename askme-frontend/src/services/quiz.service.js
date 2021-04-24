@@ -1,4 +1,4 @@
-import API, {refreshToken} from './axiosBase';
+import API from './axiosBase';
 
 const apiRoute = '/api/quiz';
 /**
@@ -10,7 +10,6 @@ export default class QuizService {
    * @return {object}
    */
   static async listCreatedQuizzes() {
-    refreshToken();
     return await API.get(apiRoute);
   }
 };

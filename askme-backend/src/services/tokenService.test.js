@@ -29,3 +29,20 @@ test('Should throw exception when token is invalid', () => {
     expect(err instanceof AuthorizationException).toBe(true);
   }
 });
+
+test('getRoleFromToken should return correct role', () => {
+  const token = TokenService.generateToken('userIdAdmin', true);
+
+  expect(TokenService.getRoleFromToken(token)).toBe('admin');
+});
+
+test('requireTokenToBeAdmin should throw when role is not admin', () => {
+  const token = TokenService.generateToken('userIdAdmin', false);
+
+  try {
+    TokenService.requireTokenToBeAdmin(token);
+    fail('Exception expected');
+  } catch (err) {
+    expect(err instanceof AuthorizationException).toBe(true);
+  }
+});

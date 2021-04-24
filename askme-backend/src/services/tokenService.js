@@ -32,6 +32,41 @@ class TokenService {
       throw new AuthorizationException('Token inválido', null);
     }
   }
+
+  /**
+   * Lê o header authorization
+   * @param {Express.Request} req
+   * @return {string} Token
+   */
+  static getRequiredTokenFromRequest(req) {
+    if (req.headers.authorization) {
+      return req.header.authorization.replace('Bearer', '').trim();
+    } else {
+      throw new AuthorizationException('Token de autorização não encontrado');
+    }
+  }
+
+  /**
+   * Retorna o campo role do token
+   * @param {string} token
+   * @return {string} Role
+   */
+  static getRoleFromToken(token) {
+    return this.decodeToken(token).role;
+  }
+
+  /**
+   * Lança uma exceção caso o token não seja de administrador
+   * @param {string} token
+   * @return {void}
+   */
+  static requireTokenToBeAdmin(token) {
+    if (this.getRoleFromToken(token) === 'admin') {
+      return;
+    }
+
+    throw new AuthorizationException('Autorização insuficiente');
+  }
 }
 
 module.exports = TokenService;
