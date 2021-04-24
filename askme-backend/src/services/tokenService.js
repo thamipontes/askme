@@ -40,7 +40,7 @@ class TokenService {
    */
   static getRequiredTokenFromRequest(req) {
     if (req.headers.authorization) {
-      return req.header.authorization.replace('Bearer', '').trim();
+      return req.headers.authorization.replace('Bearer', '').trim();
     } else {
       throw new AuthorizationException('Token de autorização não encontrado');
     }
