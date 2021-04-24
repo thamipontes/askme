@@ -6,6 +6,10 @@ const User = require('../entities/user');
 const UserRepository = require('../repositories/userRepository');
 const ValidationException = require('./validationException');
 const ServiceException = require('./serviceException');
+// eslint-disable-next-line no-unused-vars
+const UserLoginCommand = require('../models/user.loginCommand');
+const TokenService = require('./tokenService');
+const AuthorizationException = require('./authorizationException');
 
 /**
  * Service for operations with users;
@@ -37,6 +41,23 @@ class UserService {
     );
 
     return result;
+  }
+
+  /**
+   * Realiza login de usuário e retorna um token caso o login seja bem sucedido
+   * @param {UserLoginCommand} loginUserCommand
+   * @return {string} Token
+   */
+  static async loginUser(loginUserCommand) {
+    const existingUser = await UserRepository.getUserByEmail(
+        loginUserCommand.email);
+
+    if (existingUser && loginUserCommand.password === existingUser.password) {
+      return TokenService.generateToken(existingUser.id, false);
+    } else {
+      throw new AuthorizationException(
+          'Usuário ou senha incorretos', {email: loginUserCommand.email});
+    }
   }
 }
 

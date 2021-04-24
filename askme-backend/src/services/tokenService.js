@@ -8,12 +8,14 @@ const jwtSecret = 's3cr3t_';
 class TokenService {
   /**
    * Gera um token para administrador ou usuário comum
+   * @param {string} userId User Id
    * @param {boolean} isAdmin
    * @return {string} token
    */
-  static generateToken(isAdmin = false) {
+  static generateToken(userId, isAdmin = false) {
     return jwt.sign({
       role: isAdmin? 'admin' : 'common',
+      userId: userId,
     }, jwtSecret);
   }
 
