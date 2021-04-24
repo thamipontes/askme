@@ -42,7 +42,8 @@ function App() {
           </Route>
           <Route path="/quiz">
             <ListCreatedQuizzesPage></ListCreatedQuizzesPage>
-          </Switch>
+          </Route>
+        </Switch>
       </Router>
     </div>
   );

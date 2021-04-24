@@ -23,6 +23,14 @@ function BoxedForm(props) {
       {props.children}
       <Button className="w-100"
         onClick={props.onSubmit}>{props.submitText}</Button>
+      {
+          props.alternativeLinkRoute && props.alternativeLinkText?
+          <div className="mt-3">
+            <Link to={props.alternativeLinkRoute}>
+              {props.alternativeLinkText}
+            </Link>
+          </div> : null
+      }
     </Form>
   );
 }
