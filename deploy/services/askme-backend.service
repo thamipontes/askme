@@ -2,9 +2,9 @@
 Description=Askme Backend
 
 [Service]
-User=ubuntu
-WorkingDirectory=/home/ubuntu/askme
-ExecStart=deploy/scripts/runBackend.sh
+User=root
+WorkingDirectory=/deploy/askme
+ExecStart=/deploy/askme/deploy/scripts/runBackend.sh
 Restart=always
 
 [Install]
