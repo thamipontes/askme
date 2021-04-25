@@ -65,6 +65,7 @@ test('save should call model save and return the result', async () => {
   );
 
   const result = await QuizRepository.save(quiz);
+  expect(result.id).toBe('idQuizExample');
   expect(result.creatorId).toBe(quizExampleData.creatorId);
   expect(result.title).toBe(quizExampleData.title);
   expect(result.isAnonymous).toBe(quizExampleData.isAnonymous);
