@@ -25,7 +25,7 @@ const saveMock = jest.fn(async () => {
   return result;
 });
 
-const getUserByEmailMock = jest.fn(async () => {
+const getUserByQueryMock = jest.fn(async () => {
   const result = new User(
       userExampleData.email,
       userExampleData.name,
@@ -90,7 +90,7 @@ test('createUser should throw ServiceException when user already exists',
 
       expect(command.isValid()).toBe(true);
 
-      UserRepository.getUserByEmail = getUserByEmailMock;
+      UserRepository.getUserByEmail = getUserByQueryMock;
 
       try {
         await UserService.createUser(command);
@@ -102,5 +102,19 @@ test('createUser should throw ServiceException when user already exists',
       expect(UserRepository.getUserByEmail).toHaveBeenCalledWith(
           userExampleData.email);
       expect(UserRepository.save).not.toHaveBeenCalled();
+    },
+);
+
+test('getUserById should call UserRepository.getUserById',
+    async () => {
+      UserRepository.getUserById = getUserByQueryMock;
+      const result = await UserService.getUserById('userId');
+      expect(UserRepository.getUserById).toHaveBeenCalledWith('userId');
+      expect(result.toObject()).toStrictEqual({
+        id: userExampleData.id,
+        email: userExampleData.email,
+        name: userExampleData.name,
+        password: userExampleData.password,
+      });
     },
 );
