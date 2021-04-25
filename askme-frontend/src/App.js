@@ -45,8 +45,8 @@ function App() {
             <ListCreatedQuizzesPage></ListCreatedQuizzesPage>
           </Route>
         </Switch>
+        <Redirect from="*" to="/"></Redirect>
       </Router>
-      <Redirect from="*" to="/"></Redirect>
     </div>
   );
 }
