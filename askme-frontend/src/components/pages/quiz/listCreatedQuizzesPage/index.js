@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import QuizService from '../../../../services/quiz.service';
 import QuizItem from '../../../forms/QuizItem';
+import './createButton.css';
 
 /**
  * Componente de página de listagem de questionários criados por usuário
@@ -16,18 +18,20 @@ export default function ListCreatedQuizzesPage() {
   }, []);
 
   return (
-    <div id="page-quiz-list" className="container">
-      <main>
-        {quizzes.map((quiz, index) => {
-          return <QuizItem key={index*2} quiz={quiz}/>;
-        })}
+    <React.Fragment>
+      <Link to='/quiz/create'>
+        <div id="page-quiz-create-button">
+          <i className="fas fa-plus"></i>
+        </div>
+      </Link>
+      <div id="page-quiz-list" className="container">
+        <main>
+          {quizzes.map((quiz, index) => {
+            return <QuizItem key={index*2} quiz={quiz}/>;
+          })}
 
-      </main>
-    </div>
-    // <div>
-    //   {
-    //     quizzes? quizzes : <p>Failed</p>
-    //   }
-    // </div>
+        </main>
+      </div>
+    </React.Fragment>
   );
 };

@@ -15,6 +15,7 @@ import LoginPage from './components/pages/loginPage';
 import ListCreatedQuizzesPage from
   './components/pages/quiz/listCreatedQuizzesPage';
 import {Navbar} from 'react-bootstrap';
+import CreateQuizPage from './components/pages/quiz/createQuizPage';
 
 /**
 * Gets the App to render
@@ -43,8 +44,11 @@ function App() {
           <Route path="/login">
             <LoginPage></LoginPage>
           </Route>
-          <Route path="/quiz">
+          <Route exact path="/quiz">
             <ListCreatedQuizzesPage></ListCreatedQuizzesPage>
+          </Route>
+          <Route path="/quiz/create">
+            <CreateQuizPage></CreateQuizPage>
           </Route>
         </Switch>
         {/* <Redirect from="*" to="/"></Redirect> */}

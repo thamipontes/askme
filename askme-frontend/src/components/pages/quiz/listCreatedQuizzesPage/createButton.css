@@ -1,0 +1,23 @@
+#page-quiz-create-button{
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+
+  width: 70px;
+  height: 70px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid black;
+  border-radius: 50%;
+
+  color: black;
+  background-color: white;
+}
+
+#page-quiz-create-button:hover {
+  color: white;
+  background-color: black;
+}

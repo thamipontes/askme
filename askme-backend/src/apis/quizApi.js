@@ -45,7 +45,7 @@ quizRouter.post('', async (req, res, next) => {
     await UserService.getUserById(creatorId);
 
     result = await QuizService.createQuiz(new QuizCreateCommand(
-        creatorId, req.body.title, req.body.isAnonymous,
+        creatorId, req.body.title, req.body.isAnonymous==='true',
     ));
 
     if (!result) {
