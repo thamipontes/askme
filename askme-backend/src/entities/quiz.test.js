@@ -19,6 +19,13 @@ test('toObject should convert properties properly', () => {
   });
 });
 
+test('setId should set id properly', () => {
+  const quiz = new Quiz('userId', 'abcdef', true);
+  quiz.setId('quizId');
+
+  expect(quiz.id).toBe('quizId');
+});
+
 test('isValid should return true when properties are valid', () => {
   const quiz = new Quiz('userId', 'abcdef', true);
   expect(quiz.isValid()).toBe(true);

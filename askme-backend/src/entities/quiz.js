@@ -29,6 +29,14 @@ class Quiz {
   }
 
   /**
+   * Setter para id
+   * @param {string} id
+   */
+  setId(id) {
+    this.id = id;
+  }
+
+  /**
    * Converte as questões do questionário em um XML
    * @return {string}
    */
