@@ -7,6 +7,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 import LoginPage from './components/pages/loginPage';
 import ListCreatedQuizzesPage from
@@ -45,6 +46,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
+      <Redirect from="*" to="/"></Redirect>
     </div>
   );
 }
