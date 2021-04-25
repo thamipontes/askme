@@ -46,10 +46,12 @@ class LoginPage extends React.Component {
    * @param {*} event
    */
   async handleSubmit(event) {
-    await UserService.login(
+    UserService.login(
         this.state.email,
         this.state.password,
-    );
+    ).then(() => {
+      location.href = 'quiz';
+    });
 
     event.preventDefault();
   }

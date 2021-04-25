@@ -2,18 +2,16 @@ import React, {useEffect, useState} from 'react';
 import QuizService from '../../../../services/quiz.service';
 import QuizItem from '../../../forms/QuizItem';
 
-const quizMocado = [{title: 'Thamires'}, {title: 'Teste'}, {title: 'Laranja'}];
-
 /**
  * Componente de página de listagem de questionários criados por usuário
  * @return {object}
  */
 export default function ListCreatedQuizzesPage() {
-  const [quizzes, setQuizzes] = useState(quizMocado);
+  const [quizzes, setQuizzes] = useState([]);
 
   useEffect(async () => {
     const result = await QuizService.listCreatedQuizzes();
-
+    console.log(result.data.data);
     setQuizzes(result.data.data);
   }, []);
 

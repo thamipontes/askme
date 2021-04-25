@@ -7,9 +7,11 @@ const apiRoute = '/api/quiz';
 export default class QuizService {
   /**
    * Obtem a listem de questionários criados pelo usuário pelo seu token
+   * @param {number} offset
+   * @param {number} limit
    * @return {object}
    */
-  static async listCreatedQuizzes() {
-    return await API.get(apiRoute);
+  static async listCreatedQuizzes(offset = 0, limit = 10) {
+    return await API.get(`${apiRoute}?offset=${offset}&limit=${limit}`);
   }
 };

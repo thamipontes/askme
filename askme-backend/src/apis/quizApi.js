@@ -18,13 +18,17 @@ quizRouter.get('', async (req, res, next) => {
     await UserService.getUserById(creatorId);
 
     quizzes = await QuizService.getQuizzesByCreatorId(
-        creatorId, req.query.offset, req.query.limit);
+        creatorId,
+        parseInt(req.query.offset),
+        parseInt(req.query.limit),
+    );
 
     if (!quizzes) {
       quizzes = [];
     }
   } catch (err) {
     next(err);
+    return;
   }
 
   res.status(200);
@@ -49,6 +53,7 @@ quizRouter.post('', async (req, res, next) => {
     }
   } catch (err) {
     next(err);
+    return;
   }
 
   res.status(200);

@@ -71,16 +71,28 @@ class QuizRepository {
     let result = null;
 
     try {
-      const queryResult = await this.Model.find(query).skip(offset)
-          .take(limit>maxLimit? maxLimit:limit);
+      const queryResult = await this.Model.find(query, null,
+          {
+            skip: offset,
+            limit: limit>maxLimit? maxLimit:limit,
+          },
+      ).exec();
 
       if (queryResult==null) {
         return null;
       }
 
-      result = new Quiz(
-          queryResult.creatorId, queryResult.title, queryResult.isAnonymous);
-      result.setId(queryResult._id);
+      result = queryResult.map((quizModel) => {
+        const quiz = new Quiz(
+            quizModel.creatorId,
+            quizModel.title,
+            quizModel.isAnonymous,
+        );
+
+        quiz.setId(quizModel._id);
+
+        return quiz;
+      });
     } catch (err) {
       throw new Error(`Falha ao obter questionários por query: ${err}`);
     }
@@ -96,7 +108,7 @@ class QuizRepository {
    * @return {Quiz[]}
    */
   static async getQuizzesByCreatorId(creatorId, offset, limit) {
-    return await this.getQuizzesByQuery({creatorId: creatorId});
+    return await this.getQuizzesByQuery({creatorId: creatorId}, offset, limit);
   }
 }
 
