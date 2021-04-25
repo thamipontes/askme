@@ -30,6 +30,16 @@ class QuizService {
 
     return result;
   }
+
+  /**
+   * Obtem os questionários por Id de criador (paginado)
+   * @param {string} creatorId
+   * @param {number} offset
+   * @param {number} limit
+   */
+  static async getQuizzesByCreatorId(creatorId, offset = 0, limit = 10) {
+    return await QuizRepository.getQuizzesByCreatorId(creatorId, offset, limit);
+  }
 }
 
 module.exports = QuizService;
