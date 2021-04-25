@@ -53,15 +53,14 @@ class UserRepository {
   }
 
   /**
-   * Obtem um usuário pelo email
-   * @param {string} email
-   * @return {User}
+   * Obtem um usuário por meio de uma query
+   * @param {object} query
    */
-  static async getUserByEmail(email) { // issue: I-12
+  static async getOneUserWithQuery(query) {
     let result = null;
 
     try {
-      const queryResult = await this.Model.findOne({email: email});
+      const queryResult = await this.Model.findOne(query);
 
       if (queryResult==null) {
         return null;
@@ -74,10 +73,28 @@ class UserRepository {
       );
       result.setId(queryResult._id);
     } catch (err) {
-      throw new Error(`Falha ao obter usuário pelo email: ${err}`);
+      throw new Error(`Falha ao obter usuário por query: ${err}`);
     }
 
     return result;
+  }
+
+  /**
+   * Obtem um usuário pelo email
+   * @param {string} email
+   * @return {User}
+   */
+  static async getUserByEmail(email) { // issue: I-12
+    return this.getOneUserWithQuery({email: email});
+  }
+
+  /**
+   * Obtem um usuário pelo id
+   * @param {string} id
+   * @return {User}
+   */
+  static async getUserById(id) {
+    return this.getOneUserWithQuery({_id: id});
   }
 }
 

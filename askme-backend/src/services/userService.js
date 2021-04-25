@@ -59,6 +59,20 @@ class UserService {
           'Usuário ou senha incorretos', {email: loginUserCommand.email});
     }
   }
+
+  /**
+   * Obtem um usuário pelo Id
+   * @param {string} id
+   */
+  static async getUserById(id) {
+    const existingUser = await UserRepository.getUserById(id);
+
+    if (!existingUser) {
+      throw new ServiceException('Usuário não encontrado', {id: id});
+    }
+
+    return existingUser;
+  }
 }
 
 module.exports = UserService;
