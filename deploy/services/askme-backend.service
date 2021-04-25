@@ -6,6 +6,7 @@ User=root
 WorkingDirectory=/deploy/askme
 ExecStart=/deploy/askme/deploy/scripts/runBackend.sh
 Restart=always
+StartLimitIntervalSec=30
 
 [Install]
 WantedBy=multi-user.target
