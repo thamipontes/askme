@@ -1,0 +1,11 @@
+[Unit]
+Description=Askme Backend
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/askme
+ExecStart=deploy/scripts/runBackend.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
