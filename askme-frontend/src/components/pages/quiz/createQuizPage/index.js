@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {useHistory} from 'react-router-dom';
 import BoxedForm from '../../../forms/BoxedForm';
 import FormInput from '../../../forms/FormInput';
 import Container from 'react-bootstrap/Container';
@@ -11,7 +10,7 @@ import QuizService from '../../../../services/quiz.service';
  * Obtem o componente da pagina de cadastro de quesitonário
  * @return {React.Component}
  */
-export default function CreateQuizPage() {
+const CreateQuizPage = () => {
   const [title, setTitle] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
 
@@ -40,10 +39,8 @@ export default function CreateQuizPage() {
    * @param {*} event
    */
   async function handleSubmit(event) {
-    const history = useHistory();
-
     QuizService.createQuiz(title, isAnonymous).then(() => {
-      history.push('/quiz');
+      location.href = '/quiz';
     });
 
     event.preventDefault();
@@ -75,5 +72,6 @@ export default function CreateQuizPage() {
       </Row>
     </Container>
   );
-}
+};
 
+export default CreateQuizPage;

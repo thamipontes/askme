@@ -9,7 +9,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  // Redirect,
+  Redirect,
 } from 'react-router-dom';
 import LoginPage from './components/pages/loginPage';
 import ListCreatedQuizzesPage from
@@ -47,11 +47,10 @@ function App() {
           <Route exact path="/quiz">
             <ListCreatedQuizzesPage></ListCreatedQuizzesPage>
           </Route>
-          <Route path="/quiz/create">
-            <CreateQuizPage></CreateQuizPage>
+          <Route path="/quiz/create" component={CreateQuizPage}>
           </Route>
+          <Redirect exact from="/" to="/login"></Redirect>
         </Switch>
-        {/* <Redirect from="*" to="/"></Redirect> */}
       </Router>
     </div>
   );

@@ -133,3 +133,41 @@
 .buttons-container a.info:hover {    
     color: black;
 }
+
+@media only screen and (max-width: 600px) {
+    .quiz-item {
+        width: 90%;
+    }
+
+    /* O p do primeiro nivel que está dentro da classe quiz-item */
+    .quiz-item > p{
+        /* Em cima e embaixo zero e nas laterais 2rem*/
+        padding: 0 2rem;
+        font-size: 0.5rem;
+        line-height: 2.8rem;
+    }
+
+    .quiz-item footer {
+        padding: 0;
+    }
+
+    .quiz-item footer a {
+        margin: 0;
+        width: 90%;
+
+        display: flex;
+        justify-content: center;
+    }
+
+    .buttons-container a:first-child {
+        margin: 0;
+    }
+
+    .buttons-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+}

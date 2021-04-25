@@ -13,8 +13,6 @@ import {Link} from 'react-router-dom';
  * @return {React.Component}
  */
 function QuizItem({quiz}) {
-  /**
-   */
   return (
     <article className="quiz-item">
       <header>
@@ -35,7 +33,6 @@ function QuizItem({quiz}) {
         </div>
       </footer>
     </article>
-
   );
 };
 
