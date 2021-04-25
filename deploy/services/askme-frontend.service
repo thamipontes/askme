@@ -1,10 +1,10 @@
 [Unit]
-Description=Askme Backend
+Description=Askme Frontend
 
 [Service]
 User=root
 WorkingDirectory=/deploy/askme
-ExecStart=/bin/bash /deploy/askme/deploy/scripts/runBackend.sh
+ExecStart=/bin/bash /deploy/askme/deploy/scripts/runFrontend.sh
 Restart=always
 RestartSec=90
 StartLimitIntervalSec=400
