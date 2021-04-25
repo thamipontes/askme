@@ -1,4 +1,5 @@
 import API from './axiosBase';
+import TokenService from './token.service';
 
 const apiRoute = '/api/users';
 /**
@@ -36,6 +37,8 @@ export default class UserService {
       password: password,
     }).then(
         (res) => {
+          const token = res.data.data.token;
+          TokenService.setAuthToken(token);
           return res;
         },
     );

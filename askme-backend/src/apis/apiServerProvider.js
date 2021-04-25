@@ -5,6 +5,7 @@ const config = require('./api.config');
 const apiResponse = require('./apiResponse');
 const ServiceException = require('../services/serviceException');
 const ValidationException = require('../services/validationException');
+const AuthorizationException = require('../services/authorizationException');
 
 /**
  * Provider for API's express instace
@@ -39,6 +40,12 @@ class ApiServerProvider {
         res.send(apiResponse(false,
           err.message != ''? err.message : 'Erro de validação', null),
         );
+      } else if (err instanceof AuthorizationException) {
+        res.status(401);
+        res.send(apiResponse(false,
+            err.message,
+            err.data,
+        ));
       } else {
         const exceptionCode = Math.floor(Math.random()*4096).toString(16);
         console.log(`{API} Exception ${exceptionCode}: ${err}`);

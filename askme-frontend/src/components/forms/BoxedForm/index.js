@@ -18,11 +18,19 @@ function BoxedForm(props) {
    */
 
   return (
-    <Form className="w-75 border border-primary p-3">
+    <Form className="w-75 border p-3">
       <h1>{props.title}</h1>
       {props.children}
       <Button className="w-100"
         onClick={props.onSubmit}>{props.submitText}</Button>
+      {
+          props.alternativeLinkRoute && props.alternativeLinkText?
+          <div className="mt-3 notAccount">
+            <Link to={props.alternativeLinkRoute}>
+              {props.alternativeLinkText}
+            </Link>
+          </div> : null
+      }
     </Form>
   );
 }

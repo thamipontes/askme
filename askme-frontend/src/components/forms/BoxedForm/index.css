@@ -1,0 +1,9 @@
+.notAccount a{
+    color:var(--color-text-title);
+    text-decoration: underline;
+}
+
+.notAccount a:hover{
+    color:var(--color-secundary-dark);
+    text-decoration: none;
+}
