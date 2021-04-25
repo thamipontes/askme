@@ -1,3 +1,4 @@
+const quizRouter = require('./quizApi');
 const userApi = require('./userApi');
 
 module.exports = {
@@ -7,6 +8,11 @@ module.exports = {
       name: 'UserApi',
       base: '/api/users',
       router: userApi,
+    },
+    {
+      name: 'QuizApi',
+      base: '/api/quiz',
+      router: quizRouter,
     },
   ],
 };

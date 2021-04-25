@@ -9,6 +9,9 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
+import LoginPage from './components/pages/loginPage';
+import ListCreatedQuizzesPage from
+  './components/pages/quiz/listCreatedQuizzesPage';
 import {Navbar} from 'react-bootstrap';
 
 /**
@@ -31,12 +34,18 @@ function App() {
         </Navbar.Brand>
       </Navbar>
       <Router>
-        <Redirect from="*" to="/signup"></Redirect>
         <Switch>
           <Route path="/signup">
             <SignUpPage></SignUpPage>
           </Route>
+          <Route path="/login">
+            <LoginPage></LoginPage>
+          </Route>
+          <Route path="/quiz">
+            <ListCreatedQuizzesPage></ListCreatedQuizzesPage>
+          </Route>
         </Switch>
+        <Redirect from="*" to="/"></Redirect>
       </Router>
     </div>
   );

@@ -5,12 +5,13 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import UserService from '../../../services/user.service';
+
 /**
- * Gets the SignUpPage Component
+ * Obtem o componente da pagina de cadastro
  * @return {React.Component} SignUpPage Component
  */
-
 function SignUpPage() {
+  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -24,6 +25,9 @@ function SignUpPage() {
     const value = target.value;
     const nameReceived = target.name;
     switch (nameReceived) {
+      case 'email':
+        setEmail(value);
+        break;
       case 'name':
         setName(value);
         break;
@@ -44,6 +48,7 @@ function SignUpPage() {
    */
   async function handleSubmit(event) {
     await UserService.createUser(
+        email,
         name,
         password,
         passwordConfirmation,
@@ -51,7 +56,7 @@ function SignUpPage() {
 
     event.preventDefault();
   }
-  console.log(name, password, passwordConfirmation);
+
   /**
    * Retorna o componente a ser renderizado
    * @return {React.Component}
@@ -61,7 +66,15 @@ function SignUpPage() {
       <Row>
         <Col className="d-flex justify-content-center">
           <BoxedForm title="Cadastre-se"
-            submitText="Cadastrar!" onSubmit={handleSubmit}>
+            submitText="Cadastrar!"
+            alternativeLinkRoute="/login"
+            alternativeLinkText="Já tenho uma conta"
+            onSubmit={handleSubmit}>
+            <FormInput label="Email"
+              name="email"
+              type="text"
+              value={email}
+              onChange={handleChange}></FormInput>
             <FormInput label="Nome"
               name="name"
               type="text"
