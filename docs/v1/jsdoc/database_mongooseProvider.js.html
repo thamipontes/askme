@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: database/mongooseProvider.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: database/mongooseProvider.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const mongoose = require('mongoose');
+
+// Change to mongoose.config when using in production
+const config = require('./mongooseDev.config');
+
+/**
+ * Provider for the mongoose instance
+ */
+class MongooseProvider {
+  /**
+   * Inits the mongoose instance and connects it
+   */
+  static initMongooseInstance() {
+    mongoose.connect(config.connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    this._mongooseInstance = mongoose;
+
+    const db = mongoose.connection;
+
+    db.on('error', () => {
+      this.connected = false;
+      this.error = mongooseProviderException(
+          MongooseProviderExceptionTypes.FailedToConnect);
+
+      this.listeners.filter(({
+        name,
+      }) => name == 'failed').forEach(({
+        callback,
+      }) => callback.apply(this));
+    });
+
+    db.once('open', () => {
+      this.connected = true;
+
+      this.listeners.filter(({
+        name,
+      }) => name == 'connected').forEach(({
+        callback,
+      }) => callback.apply(this));
+    });
+  }
+
+  /**
+   * Triggers the given callback if and when the initialization fails
+   * @param {*} callback
+   */
+  static whenFailed(callback) {
+    this.listeners.push({
+      name: 'failed',
+      callback: callback,
+    });
+
+    if (!this.connected &amp;&amp; this.error) {
+      this.listeners.filter(({
+        name,
+      }) => name == 'failed').forEach(({
+        callback,
+      }) => callback.apply(this));
+    }
+  }
+
+  /**
+   * Triggers the given callback if and when the initialization finishes
+   * @param {*} callback
+   */
+  static whenConnected(callback) {
+    this.listeners.push({
+      name: 'connected',
+      callback: callback,
+    });
+
+    if (this.connected &amp;&amp; !this.error) {
+      this.listeners.filter(({
+        name,
+      }) => name == 'connected').forEach(({
+        callback,
+      }) => callback.apply(this));
+    }
+  }
+
+  /**
+   * Returns the current mongoose instance
+   * @return {mongoose} Mongoose instance
+   */
+  static getRequiredMongooseInstance() {
+    if (this._mongooseInstance === null) {
+      throw mongooseProviderException(MongooseProviderExceptionTypes.NotInited);
+    }
+
+    return this._mongooseInstance;
+  }
+};
+
+const MongooseProviderExceptionTypes = {
+  NotInited: 'MongooseProvider was not inited yet',
+  FailedToConnect: 'MongooseProvider failed to connect to the database',
+};
+
+/**
+ * Returns a proper error for MongooseProvider
+ * @param {string} message
+ * @return {Error} Filled error
+ */
+function mongooseProviderException(message) {
+  const error = new Error();
+  error.name = 'MongooseProviderError';
+  error.message = message;
+  return error;
+};
+
+MongooseProvider._mongooseInstance = null;
+MongooseProvider.connected = false;
+MongooseProvider.error = null;
+MongooseProvider.listeners = [];
+
+module.exports = {
+  mongooseProviderException,
+  MongooseProviderExceptionTypes,
+  MongooseProvider,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ApiServerProvider.html">ApiServerProvider</a></li><li><a href="AuthorizationException.html">AuthorizationException</a></li><li><a href="MongooseProvider.html">MongooseProvider</a></li><li><a href="Quiz.html">Quiz</a></li><li><a href="QuizCreateCommand.html">QuizCreateCommand</a></li><li><a href="QuizRepository.html">QuizRepository</a></li><li><a href="QuizService.html">QuizService</a></li><li><a href="ServiceException.html">ServiceException</a></li><li><a href="TokenService.html">TokenService</a></li><li><a href="User.html">User</a></li><li><a href="UserCreateCommand.html">UserCreateCommand</a></li><li><a href="UserLoginCommand.html">UserLoginCommand</a></li><li><a href="UserRepository.html">UserRepository</a></li><li><a href="UserService.html">UserService</a></li><li><a href="ValidationException.html">ValidationException</a></li></ul><h3>Global</h3><ul><li><a href="global.html#apiResponse">apiResponse</a></li><li><a href="global.html#initAllRepositories">initAllRepositories</a></li><li><a href="global.html#mongooseProviderException">mongooseProviderException</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Apr 25 2021 19:40:57 GMT-0300 (Brasilia Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
