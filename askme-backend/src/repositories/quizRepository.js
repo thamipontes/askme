@@ -2,6 +2,9 @@ const Quiz = require('../entities/quiz');
 // eslint-disable-next-line no-unused-vars
 const mongoose = require('mongoose');
 
+// Quantidade máxima de objetos lidos de uma vez permitida
+const maxLimit = 20;
+
 /**
  * Implementa padrão de repositórios para a entidade questionário
  */
@@ -51,6 +54,49 @@ class QuizRepository {
     }
 
     return result;
+  }
+
+  /**
+   * Obtem os Quizzes por meio de uma query (paginado)
+   * @param {object} query
+   * @param {number} offset
+   * @param {number} limit
+   * @return {Quiz[]}
+   */
+  static async getQuizzesByQuery(query, offset, limit) {
+    if (limit < 0) {
+      return null;
+    }
+
+    let result = null;
+
+    try {
+      const queryResult = await this.Model.find(query).skip(offset)
+          .take(limit>maxLimit? maxLimit:limit);
+
+      if (queryResult==null) {
+        return null;
+      }
+
+      result = new Quiz(
+          queryResult.creatorId, queryResult.title, queryResult.isAnonymous);
+      result.setId(queryResult._id);
+    } catch (err) {
+      throw new Error(`Falha ao obter questionários por query: ${err}`);
+    }
+
+    return result;
+  }
+
+  /**
+   * Obtem questionários pelo Id do criador (paginado)
+   * @param {string} creatorId
+   * @param {number} offset
+   * @param {number} limit
+   * @return {Quiz[]}
+   */
+  static async getQuizzesByCreatorId(creatorId, offset, limit) {
+    return await this.getQuizzesByQuery({creatorId: creatorId});
   }
 }
 
