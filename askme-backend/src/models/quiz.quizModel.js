@@ -6,7 +6,7 @@ class QuizModel {
    * Construtor para o modelo de Quiz
    * @param {string} creatorId
    * @param {string} title
-   * @param {string} isAnonymous
+   * @param {boolean} isAnonymous
    */
   constructor(creatorId, title, isAnonymous) {
     this.creatorId = creatorId,

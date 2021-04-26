@@ -38,11 +38,16 @@ class QuizService {
    * @param {string} creatorId
    * @param {number} offset
    * @param {number} limit
+   * @return {QuizModel[]}
    */
   static async getQuizzesByCreatorId(creatorId, offset = 0, limit = 10) {
     // issue: 14
     const quizzes = await QuizRepository.getQuizzesByCreatorId(
         creatorId, offset, limit);
+
+    if (!quizzes) {
+      return [];
+    }
 
     return quizzes.map((quiz) => {
       return new QuizModel(
