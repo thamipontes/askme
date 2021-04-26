@@ -12,6 +12,7 @@ class QuizFullModel extends QuizModel {
    * @param {*} questions
    */
   constructor(creatorId, title, isAnonymous, questions) {
+    // issue: I-24
     super(creatorId, title, isAnonymous);
     this.questions = questions;
   }

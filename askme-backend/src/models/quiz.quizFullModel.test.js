@@ -1,6 +1,7 @@
 const QuizFullModel = require('./quiz.quizFullModel');
 
 test('QuizFullModel constructor should set properties properly', () => {
+  // issue: I-24
   const model = new QuizFullModel('userId', 'titleexample', true, []);
 
   expect(model.creatorId).toBe('userId');
