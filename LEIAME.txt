@@ -1,0 +1,52 @@
+# Sobre relatórios
+Os relatórios podem ser encontrados em docs/v{número da Sprint}. No caso da Sprint 1, por exemplo, acesse docs/v1. Lá estarão
+tanto a pasta de relatórios individuais quanto a documentação jsdoc gerada a partir dos comentários no código e a visualização da cobertura de testes
+em HTML. Para facilitar a visualização desses documentos gerados em HTML, você poderá usar uma ferramenta para servidor HTTP. Recomendo a utilização
+do pacote http.server do python3. Nesse caso, por exemplo, para ver a documentação jsdoc do backend da sprint 1 a partir da raiz desse projeto, utilize:
+
+$ cd docs/v1/jsdoc-backend
+$ python3 -m http.server
+
+Isso deverá servir HTTP na porta 8000 do seu computador. Para acessar as páginas servidas, abra seu browser e acesse o endereço "localhost:8000". O mesmo
+vale para o jsdoc do frontend e o test coverage no backend. No último caso, o caminho é um pouco diferente:
+
+$ cd docs/v1/test-coverage-backend/lcov-report
+$ python3 -m http.server
+
+# Sobre identificação dos locais de implementação
+As tarefas foram salvas em issues do Github. Cada issue tem um número, e marcamos com um comentário "I-<número da issue>" o local de implementação de cada
+issue. Vale notar que nem sempre a implementação envolveu apenas uma parte do código, mas também há partes compartilhadas entre várias issues e que, de fato,
+não pertencem a uma issue específica. Além disso, para ver onde foram escritos os testes do TDD, basta verificar, para o arquivo onde ocorreu a implementação da issue,
+um arquivo correspondente com terminação ".test.js". Os arquivos que tiveram testes implementados seguem esse padrão. 
+O arquivo "user.js", por exemplo, é testado em "user.test.js".
+
+# Como executar a aplicação
+A aplicação é composta de um servidor de backend e um de frontend. A execução deve ser feita nos dois simultaneamente.
+Para executar o backend, a partir da raiz deste projeto:
+
+$ cd askme-backend
+$ npm i
+$ yarn start
+
+Para executar o frontend, a partir da raiz deste projeto:
+
+$ cd askme-frontend
+$ npm i
+$ yarn start
+
+Automaticamente deverá aparecer a aplicação no browser. Caso não apareça, abra o seu browser e acesse o endereço "localhost:3000".
+Note que é necessário ter a ferramente "yarn" instalada, além de uma versão atualizada do Node.js (usamos a v15.3.0 durante o desenvolvimento).
+
+# Como executar testes
+Para executar testes no backend, a partir da raiz deste projeto:
+
+$ cd askme-backend
+$ yarn test
+testes
+Para executar testes no frontend, a partir da raiz deste projeto:
+
+$ cd askme-frontend
+$ yarn test
+
+para verificar a cobertura de testes, o procedimento é o mesmo, alterando apenas  o último comando 
+para "yarn coverage". No frontend não há implementação de testes.

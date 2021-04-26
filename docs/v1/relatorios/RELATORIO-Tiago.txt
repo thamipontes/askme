@@ -1,0 +1,2 @@
+19/04	| 30m	| Estudar aulas e laboratórios relacionados	| Aprendendo a criar um sistema de cadastro
+25/04	| 2h	| Revisar código do módulo	| Testando features implementadas

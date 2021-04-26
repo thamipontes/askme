@@ -1,0 +1,10 @@
+21/04	| 4h	| Redigir casos de teste	| Aumento da cobertura de testes
+21/04	| 33m	| Codificação de módulos	| Implementação do componente de login no frontend
+22/04	| 1h 6m	| Redigir casos de teste	| Aumento da cobertura de testes
+22/04	| 15m	| Codificação de módulos	| Implementação de um serviço de emissão e validação de tokens
+24/04	| 40m	| Codificação de módulos	| Codificação do login
+24/04	| 2h	| Codificação de módulos	| Codificação do login
+24/04	| 45m	| Codificação de módulos	| Codificação da entidade de questionário e do repositório correspondente
+24/04	| 35m	| Codificação de módulos	| Codificação de um endpoint para criar um questionário
+25/04	| 30m	| Codificação de módulos	| Codificação de um endpoint para listar questionários por criador
+25/04	| 1h 30m	| Codificação de módulos	| Adição da página de criar questionário

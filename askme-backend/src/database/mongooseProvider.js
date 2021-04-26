@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Change to mongoose.config when using in production
-const config = require('./mongooseDev.config');
+const config = require('./mongoose.config');
 
 /**
  * Provider for the mongoose instance

@@ -1,0 +1,6 @@
+20/04	| 1 hora	| Revisar código do módulo	| Revisar sozinha o que havia sido implementado e estudar algumas ferramentas
+21/04	| 1 hora	| Revisar código do módulo	| Revisar sozinha o que havia sido implementado e estudar algumas ferramentas
+22/04	| 1 hora	| Revisar código do módulo	| Tentei implementar algumas ferramentas do backend
+24/04	| 1 hora	| Mudança de Estrutura	| Mudança da estrutura do Frontend de Classe para Função
+25/04	| 2 horas	| Codificar módulo	| Criação do Layout de questionário e mudança dos layouts de login e cadastro
+25/04	| 3 horas	| Codificar módulo	| Criação do Layout de questionário e mudança dos layouts de login e cadastro
