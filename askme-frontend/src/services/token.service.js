@@ -1,7 +1,7 @@
 /**
  * Serviço para armazenamento de tokens
  */
-export default class TokenService {
+export default class TokenService { // issue: I-16
   /**
    * Salva um token de autenticação no localStorage do browser
    * @param {string} token

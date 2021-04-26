@@ -9,6 +9,7 @@ import './createButton.css';
  * @return {object}
  */
 export default function ListCreatedQuizzesPage() {
+  // issue: I-14
   const [quizzes, setQuizzes] = useState([]);
 
   useEffect(async () => {
@@ -19,6 +20,7 @@ export default function ListCreatedQuizzesPage() {
 
   return (
     <React.Fragment>
+      {/* issue: I-23 */}
       <Link to='/quiz/create'>
         <div id="page-quiz-create-button">
           <i className="fas fa-plus"></i>

@@ -12,7 +12,7 @@ import {Link} from 'react-router-dom';
  * @param  {*} {quiz}
  * @return {React.Component}
  */
-function QuizItem({quiz}) {
+function QuizItem({quiz}) { // issue: I-14
   return (
     <article className="quiz-item">
       <header>

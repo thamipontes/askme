@@ -10,7 +10,7 @@ import UserService from '../../../services/user.service';
  * Obtem o componente da pagina de cadastro
  * @return {React.Component} SignUpPage Component
  */
-function SignUpPage() {
+function SignUpPage() { // issue: I-12
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');

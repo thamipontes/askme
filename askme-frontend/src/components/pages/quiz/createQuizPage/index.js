@@ -10,7 +10,7 @@ import QuizService from '../../../../services/quiz.service';
  * Obtem o componente da pagina de cadastro de quesitonário
  * @return {React.Component}
  */
-const CreateQuizPage = () => {
+const CreateQuizPage = () => { // issue: I-23
   const [title, setTitle] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
 

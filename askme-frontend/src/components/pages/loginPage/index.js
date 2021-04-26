@@ -10,7 +10,7 @@ import UserService from '../../../services/user.service';
  * Componente da página de login
  * @return {React.Component}
  */
-class LoginPage extends React.Component {
+class LoginPage extends React.Component { // issue: I-16
   /**
    * Construtor para LoginPage
    * @param {*} props

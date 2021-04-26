@@ -16,6 +16,7 @@ class QuizService {
    * @return {Quiz}
    */
   static async createQuiz(quizCreateCommand) {
+    // issue: I-23
     if (!quizCreateCommand.isValid()) {
       throw new ValidationException();
     }
@@ -38,6 +39,7 @@ class QuizService {
    * @param {number} limit
    */
   static async getQuizzesByCreatorId(creatorId, offset = 0, limit = 10) {
+    // issue: 14
     return await QuizRepository.getQuizzesByCreatorId(creatorId, offset, limit);
   }
 }

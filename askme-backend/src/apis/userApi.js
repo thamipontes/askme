@@ -28,6 +28,7 @@ const userCreateHandler = async (req, res, next) => {
 };
 userRouter.post('', userCreateHandler);
 
+// issue: I-16
 const userLoginHandler = async (req, res, next) => {
   let result = null;
 

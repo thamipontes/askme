@@ -9,6 +9,7 @@ const apiResponse = require('./apiResponse');
 const quizRouter = express.Router();
 
 quizRouter.get('', async (req, res, next) => {
+  // issue: I-14
   let quizzes = [];
   try {
     const token = TokenService.getRequiredTokenFromRequest(req);
@@ -36,6 +37,7 @@ quizRouter.get('', async (req, res, next) => {
 });
 
 quizRouter.post('', async (req, res, next) => {
+  // issue: I-23
   let result = null;
   try {
     const token = TokenService.getRequiredTokenFromRequest(req);

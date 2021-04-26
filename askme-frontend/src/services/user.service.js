@@ -14,6 +14,7 @@ export default class UserService {
    * @param {string} passwordConfirmation
    */
   static async createUser(email, name, password, passwordConfirmation) {
+    // issue: I-12
     await API.post(`${apiRoute}`, {
       email: email,
       name: name,
@@ -32,6 +33,7 @@ export default class UserService {
    * @param {string} password
    */
   static async login(email, password) {
+    // issue: I-16
     await API.post(`${apiRoute}/login`, {
       email: email,
       password: password,

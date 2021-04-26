@@ -48,7 +48,7 @@ class UserService {
    * @param {UserLoginCommand} loginUserCommand
    * @return {string} Token
    */
-  static async loginUser(loginUserCommand) {
+  static async loginUser(loginUserCommand) { // issue: I-16
     const existingUser = await UserRepository.getUserByEmail(
         loginUserCommand.email);
 

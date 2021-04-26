@@ -24,6 +24,7 @@ import CreateQuizPage from './components/pages/quiz/createQuizPage';
 function App() {
   return (
     <div>
+      {/* issue: I-13 */}
       <Navbar bg="dark" variant="dark">
         <Navbar.Brand href="/">
           <img

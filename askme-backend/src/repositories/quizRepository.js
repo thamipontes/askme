@@ -64,6 +64,7 @@ class QuizRepository {
    * @return {Quiz[]}
    */
   static async getQuizzesByQuery(query, offset, limit) {
+    // issue: I-23
     if (limit < 0) {
       return null;
     }
@@ -108,6 +109,7 @@ class QuizRepository {
    * @return {Quiz[]}
    */
   static async getQuizzesByCreatorId(creatorId, offset, limit) {
+    // issue: I-14
     return await this.getQuizzesByQuery({creatorId: creatorId}, offset, limit);
   }
 }
