@@ -5,6 +5,7 @@ const QuizCreateCommand = require('../models/quiz.createCommand');
 const Quiz = require('../entities/quiz');
 const QuizRepository = require('../repositories/quizRepository');
 const ValidationException = require('./validationException');
+const QuizModel = require('../models/quiz.quizModel');
 
 /**
  * Serviço para operações com questionários
@@ -40,7 +41,16 @@ class QuizService {
    */
   static async getQuizzesByCreatorId(creatorId, offset = 0, limit = 10) {
     // issue: 14
-    return await QuizRepository.getQuizzesByCreatorId(creatorId, offset, limit);
+    const quizzes = await QuizRepository.getQuizzesByCreatorId(
+        creatorId, offset, limit);
+
+    return quizzes.map((quiz) => {
+      return new QuizModel(
+          quiz.creatorId,
+          quiz.title,
+          quiz.isAnonymous,
+      );
+    });
   }
 }
 
