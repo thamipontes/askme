@@ -6,11 +6,10 @@ const Question = require('./question');
 class QuestionOpen extends Question {
   /**
    * Construtor para QuestionOpen
-   * @param {*} enunciation
-   * @param {*} number
+   * @param {string} enunciation
    */
-  constructor(enunciation, number) {
-    super(enunciation, number);
+  constructor(enunciation) {
+    super(enunciation);
   }
 }
 

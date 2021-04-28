@@ -1,3 +1,4 @@
+const Question = require('./question');
 const Quiz = require('./quiz');
 
 test('getSchema should return correct schema', () => {
@@ -53,4 +54,18 @@ test('isValid should return false when quiz has too little title', () => {
 test('isValid should return false when quiz has too big title', () => {
   const quiz = new Quiz('userId', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', true);
   expect(quiz.isValid()).toBe(false);
+});
+
+test('addQuestion should addQuestion properly and set its number', () => {
+  const quiz = new Quiz('userId', 'abcdef', true);
+
+  const question1 = new Question('abcde');
+  const question2 = new Question('abcde2');
+  quiz.addQuestion(question1);
+  quiz.addQuestion(question2);
+
+  expect(question1.number).toBe(1);
+  expect(question2.number).toBe(2);
+
+  expect(quiz.questions).toStrictEqual([question1, question2]);
 });

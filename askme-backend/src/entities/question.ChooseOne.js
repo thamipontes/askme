@@ -7,10 +7,9 @@ class QuestionChooseOne extends QuestionWithItems {
   /**
    * Construtor de QuestionChooseOne
    * @param {string} enunciation
-   * @param {number} number
    */
-  constructor(enunciation, number) {
-    super(enunciation, number);
+  constructor(enunciation) {
+    super(enunciation);
   }
 }
 

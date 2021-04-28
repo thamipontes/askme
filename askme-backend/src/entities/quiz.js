@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-unused-vars
+const Question = require('./question');
+
 /**
  * Representa um questionário
  */
@@ -37,11 +40,11 @@ class Quiz {
   }
 
   /**
-   * Converte as questões do questionário em um XML
+   * Converte o questionário em um XML
    * @return {string}
    */
-  convertQuestionsToXML() {
-    // TODO: improve this method
+  toXML() {
+    // TODO: implement this method
     return '';
   }
 
@@ -54,7 +57,7 @@ class Quiz {
       creatorId: this.creatorId,
       title: this.title,
       isAnonymous: this.isAnonymous,
-      xml: this.convertQuestionsToXML(),
+      xml: this.toXML(),
     };
   }
 
@@ -74,6 +77,15 @@ class Quiz {
     }
 
     return true;
+  }
+
+  /**
+   * Adiciona uma questão ao questionário
+   * @param {Question} question
+   */
+  addQuestion(question) {
+    question.number = this.questions.length + 1;
+    this.questions.push(question);
   }
 }
 

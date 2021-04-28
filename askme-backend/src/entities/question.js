@@ -5,11 +5,10 @@ class Question {
   /**
    * Construtor para Question
    * @param {string} enunciation Enunciado da questão
-   * @param {number} number Posição em que a questão deve ser exibida
    */
-  constructor(enunciation, number) {
+  constructor(enunciation) {
     this.enunciation = enunciation;
-    this.number = number;
+    this.number = 0;
   }
 }
 

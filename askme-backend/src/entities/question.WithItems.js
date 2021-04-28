@@ -7,10 +7,9 @@ class QuestionWithItems extends Question {
   /**
    * Construtor para QuestionWithItems
    * @param {*} enunciation
-   * @param {*} number
    */
-  constructor(enunciation, number) {
-    super(enunciation, number);
+  constructor(enunciation) {
+    super(enunciation);
     this.items = [];
   }
 
@@ -20,7 +19,7 @@ class QuestionWithItems extends Question {
    */
   addItem(itemEnunciation) {
     this.items.push({
-      number: this.items.length() + 1,
+      number: this.items.length + 1,
       enunciation: itemEnunciation,
     });
   }
