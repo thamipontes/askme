@@ -12,3 +12,9 @@ test('constructor should set properties properly', () => {
   expect(question.number).toBe(0);
   expect(question.items).toStrictEqual([]);
 });
+
+test('getQuestionTypeName should return the question type correctly', () => {
+  const question = new QuestionTrueOrFalse(exampleData.enunciation);
+
+  expect(question.getQuestionTypeName()).toBe('TrueOrFalse');
+});

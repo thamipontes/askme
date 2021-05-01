@@ -11,3 +11,10 @@ test('constructor should set properties properly', () => {
   expect(question.enunciation).toBe(exampleData.enunciation);
   expect(question.number).toBe(0);
 });
+
+test('getQuestionTypeName should return the question type correctly', () => {
+  const question = new QuestionOpen(exampleData.enunciation);
+
+  expect(question.getQuestionTypeName()).toBe('Open');
+});
+

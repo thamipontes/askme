@@ -11,6 +11,14 @@ class QuestionTrueOrFalse extends QuestionWithItems {
   constructor(enunciation) {
     super(enunciation);
   }
+
+  /**
+   * Retorna o tipo da questão
+   * @return {string}
+   */
+  getQuestionTypeName() {
+    return 'TrueOrFalse';
+  }
 }
 
 module.exports = QuestionTrueOrFalse;

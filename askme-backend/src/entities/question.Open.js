@@ -11,6 +11,14 @@ class QuestionOpen extends Question {
   constructor(enunciation) {
     super(enunciation);
   }
+
+  /**
+   * Retorna uma string correspondente ao tipo da questão
+   * @return {string}
+   */
+  getQuestionTypeName() {
+    return 'Open';
+  }
 }
 
 module.exports = QuestionOpen;

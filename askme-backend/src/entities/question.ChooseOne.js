@@ -11,6 +11,14 @@ class QuestionChooseOne extends QuestionWithItems {
   constructor(enunciation) {
     super(enunciation);
   }
+
+  /**
+   * Retorna uma string correspondente ao tipo da questão
+   * @return {string}
+   */
+  getQuestionTypeName() {
+    return 'ChooseOne';
+  }
 }
 
 module.exports = QuestionChooseOne;

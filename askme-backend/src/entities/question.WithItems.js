@@ -23,6 +23,20 @@ class QuestionWithItems extends Question {
       enunciation: itemEnunciation,
     });
   }
+
+  /**
+   * Converte os itens para XML
+   * @return {string} XML
+   */
+  toXMLInternal() {
+    const xml = `<items>` + this.items.map((i) => {
+      return `<item number="${i.number}">`+
+      `<enunciation>${i.enunciation}</enunciation>`+
+      `</item>`;
+    }).join('') + `</items>`;
+
+    return xml;
+  }
 }
 
 module.exports = QuestionWithItems;

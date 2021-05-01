@@ -1,4 +1,4 @@
-const Question = require('./question');
+const QuestionOpen = require('./question.Open');
 const Quiz = require('./quiz');
 
 test('getSchema should return correct schema', () => {
@@ -16,7 +16,7 @@ test('toObject should convert properties properly', () => {
     creatorId: 'userId',
     title: 'abcdef',
     isAnonymous: true,
-    xml: '', // TODO: improve this test case with xml conversion
+    xml: '<quiz></quiz>',
   });
 });
 
@@ -59,8 +59,8 @@ test('isValid should return false when quiz has too big title', () => {
 test('addQuestion should addQuestion properly and set its number', () => {
   const quiz = new Quiz('userId', 'abcdef', true);
 
-  const question1 = new Question('abcde');
-  const question2 = new Question('abcde2');
+  const question1 = new QuestionOpen('abcde');
+  const question2 = new QuestionOpen('abcde2');
   quiz.addQuestion(question1);
   quiz.addQuestion(question2);
 

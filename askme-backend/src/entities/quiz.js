@@ -44,8 +44,11 @@ class Quiz {
    * @return {string}
    */
   toXML() {
-    // TODO: implement this method
-    return '';
+    const xml = '<quiz>' + this.questions.map((q) => {
+      q.toXML();
+    }).join('') + '</quiz>';
+
+    return xml;
   }
 
   /**

@@ -1,20 +1,12 @@
-const QuestionWithItems = require('./question.WithItems');
+const QuestionChooseOne = require('./question.ChooseOne');
 
 const exampleData = {
   enunciation: 'Qual a cor do cavalo branco de Napoleão?',
 };
 
-test('constructor should set properties properly', () => {
-  const question = new QuestionWithItems(
-      exampleData.enunciation);
-
-  expect(question.enunciation).toBe(exampleData.enunciation);
-  expect(question.number).toBe(0);
-  expect(question.items).toStrictEqual([]);
-});
-
 test('addItem should add item properly', () => {
-  const question = new QuestionWithItems(
+  // using a subtype here because the class itself is "abstract"
+  const question = new QuestionChooseOne(
       exampleData.enunciation);
 
   question.addItem('O cavalo branco de napoleão é branco');
