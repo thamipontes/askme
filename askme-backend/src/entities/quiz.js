@@ -60,9 +60,7 @@ class Quiz {
     this.questions = [];
     const result = await xml2js.parseStringPromise(xml, {trim: true});
 
-    console.log(result.Quiz.Questions[0].Question[0].$);
     result.Quiz.Questions.map(async (q) => {
-      console.log(q);
       const question = Question.fromXMLModel(q);
       this.addQuestion(question, question.number);
     });

@@ -49,6 +49,7 @@ class QuizRepository {
           quizSaved.isAnonymous,
       );
       result.setId(quizSaved._id);
+      result.getQuestionsFromXML(quizSaved.xml);
     } catch (err) {
       throw new Error(`Falha ao salvar questionário: ${err}`);
     }
@@ -91,6 +92,7 @@ class QuizRepository {
         );
 
         quiz.setId(quizModel._id);
+        quiz.getQuestionsFromXML(quizModel.xml);
 
         return quiz;
       });
