@@ -1,28 +1,45 @@
 const Question = require('./question');
-const QuestionChooseOne = require('./question.ChooseOne');
 
-test('constructor should throw', () => {
-  try {
-    new Question('Qual é a cor do cavalo branco de Napoleão?');
+const exampleData = {
+  enunciation: 'Qual a cor do cavalo branco de Napoleão',
+  type: 'Open',
+};
 
-    fail('Exception expected');
-  } catch {}
+test('addItem should add item properly', () => {
+  const question = new Question(exampleData.enunciation, exampleData.type);
+
+  question.addItem('O cavalo branco de napoleão é branco');
+  question.addItem('O cavalo branco de napoleão é vermelho');
+  question.addItem('O cavalo branco de napoleão é azul', 10);
+
+  expect(question.enunciation).toBe(exampleData.enunciation);
+  expect(question.type).toBe(exampleData.type);
+  expect(question.number).toBe(0);
+
+  expect(question.items).toStrictEqual([{
+    number: 1,
+    enunciation: 'O cavalo branco de napoleão é branco',
+  }, {
+    number: 2,
+    enunciation: 'O cavalo branco de napoleão é vermelho',
+  }, {
+    number: 10,
+    enunciation: 'O cavalo branco de napoleão é azul',
+  }]);
 });
 
-test('toXMLInternal should return xml correctly', () => {
-  // using a subtype here because the class itself is "abstract"
-  const question = new QuestionChooseOne('e0');
+test('toXML and fromXML should return handle question properly', async () => {
+  const question = new Question(
+      exampleData.enunciation, exampleData.type);
 
-  question.addItem('e1');
-  question.addItem('e2');
+  question.addItem('O cavalo branco de napoleão é branco');
+  question.addItem('O cavalo branco de napoleão é vermelho');
 
-  expect(question.toXML()).toBe(
-      `<question type="ChooseOne" number="0">\
-<enunciation>e0</enunciation>\
-<items>\
-<item number="1"><enunciation>e1</enunciation></item>\
-<item number="2"><enunciation>e2</enunciation></item>\
-</items>\
-</question>`,
-  );
+  const questionParsed = await Question.fromXMLAsync(question.toXML());
+
+  expect(question.enunciation).toBe(questionParsed.enunciation);
+  expect(question.number).toBe(questionParsed.number);
+  expect(question.type).toBe(questionParsed.type);
+
+  expect(question.items).toStrictEqual(questionParsed.items);
 });

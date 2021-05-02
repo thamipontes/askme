@@ -1,3 +1,5 @@
+const xml2js = require('xml2js');
+
 /**
  * Representa uma questão em um questionário
  */
@@ -5,35 +7,75 @@ class Question {
   /**
    * Construtor para Question
    * @param {string} enunciation Enunciado da questão
+   * @param {string} type Tipo de questão
    */
-  constructor(enunciation) {
+  constructor(enunciation, type) {
     this.enunciation = enunciation;
     this.number = 0;
-
-    if (this.toXML == undefined) {
-      throw new Error(
-          'Cannot instantiate Question: toXMLInternal should be implemented');
-    }
-
-    if (this.getQuestionTypeName == undefined) {
-      throw new Error(
-          `Cannot instantiate Question: getQuestionTypeName \
-            should be implemented`,
-      );
-    }
+    this.type = type;
+    this.items = [];
   }
 
   /**
-   * Converte a questão para XML
+   * Adiciona um item à questão
+   * @param {string} itemEnunciation
+   * @param {number} number
+   */
+  addItem(itemEnunciation, number = null) {
+    this.items.push({
+      number: number? number : this.items.length + 1,
+      enunciation: itemEnunciation,
+    });
+  }
+
+  /**
+   * Converte uma questão para XML
    * @return {string} XML
    */
   toXML() {
-    const xml =
-      `<question type="${this.getQuestionTypeName()}" number="${this.number}">`+
-      `<enunciation>${this.enunciation}</enunciation>`+
-      this.toXMLInternal()+`</question>`;
+    const builder = new xml2js.Builder();
 
-    return xml;
+    return builder.buildObject({
+      Question: {
+        $: {
+          type: this.type,
+          number: this.number,
+        },
+        Enunciation: this.enunciation,
+        Items: {
+          QuestionItem: this.items.map((i) => {
+            return {
+              $: {
+                number: i.number.toString(),
+              },
+              Enunciation: i.enunciation,
+            };
+          }),
+        },
+      },
+    });
+  }
+
+  /**
+   * Converte XML para questão
+   * @param {string} xml
+   * @return {Question}
+   */
+  static async fromXMLAsync(xml) {
+    const question = new Question();
+
+    const result = await xml2js.parseStringPromise(xml, {
+      trim: true,
+    });
+    question.number = parseInt(result.Question.$.number);
+    question.type = result.Question.$.type;
+    question.enunciation = result.Question.Enunciation[0];
+
+    result.Question.Items[0].QuestionItem.map((qi) => {
+      question.addItem(qi.Enunciation[0], parseInt(qi.$.number));
+    });
+
+    return question;
   }
 }
 

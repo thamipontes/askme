@@ -1,5 +1,5 @@
-const QuestionOpen = require('./question.Open');
 const Quiz = require('./quiz');
+const Question = require('./question');
 
 test('getSchema should return correct schema', () => {
   expect(Quiz.getSchema()).toStrictEqual({
@@ -59,8 +59,8 @@ test('isValid should return false when quiz has too big title', () => {
 test('addQuestion should addQuestion properly and set its number', () => {
   const quiz = new Quiz('userId', 'abcdef', true);
 
-  const question1 = new QuestionOpen('abcde');
-  const question2 = new QuestionOpen('abcde2');
+  const question1 = new Question('abcde', 'Open');
+  const question2 = new Question('abcde2', 'Open');
   quiz.addQuestion(question1);
   quiz.addQuestion(question2);
 
