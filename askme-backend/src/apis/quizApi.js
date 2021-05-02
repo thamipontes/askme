@@ -1,5 +1,6 @@
 const express = require('express');
 const QuizCreateCommand = require('../models/quiz.createCommand');
+const EditQuizInfoCommand = require('../models/quiz.editQuizInfoCommand');
 const QuizService = require('../services/quizService');
 const TokenService = require('../services/tokenService');
 const UserService = require('../services/userService');
@@ -61,6 +62,26 @@ quizRouter.post('', async (req, res, next) => {
   res.status(200);
   res.send(apiResponse(true,
       'Questionário criado com sucesso!', result.toObject()));
+});
+
+quizRouter.put('/:id', async (req, res, next) => {
+  let result = null;
+
+  try {
+    const token = TokenService.getRequiredTokenFromRequest(req);
+    const operatorId = TokenService.getUserIdFromToken(token);
+
+    result = await QuizService.editQuizInformation(operatorId, req.params.id,
+        new EditQuizInfoCommand(
+            req.body.title,
+        ));
+  } catch (err) {
+    next(err);
+    return;
+  }
+
+  res.send(apiResponse(
+      true, 'Questionário atualizado com sucesso!', result.toObject()));
 });
 
 module.exports = quizRouter;

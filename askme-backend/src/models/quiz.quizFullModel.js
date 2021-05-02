@@ -6,15 +6,30 @@ const QuizModel = require('./quiz.quizModel');
 class QuizFullModel extends QuizModel {
   /**
    * Construtor para QuizFullModel
+   * @param {string} id
    * @param {string} creatorId
    * @param {string} title
    * @param {boolean} isAnonymous
    * @param {*} questions
    */
-  constructor(creatorId, title, isAnonymous, questions) {
+  constructor(id, creatorId, title, isAnonymous, questions) {
     // issue: I-24
-    super(creatorId, title, isAnonymous);
+    super(id, creatorId, title, isAnonymous);
     this.questions = questions;
+  }
+
+  /**
+   * Converte o modelo para um objeto
+   * @return {object}
+   */
+  toObject() {
+    return {
+      id: this.id,
+      creatorId: this.creatorId,
+      title: this.title,
+      isAnonymous: this.isAnonymous,
+      questions: this.questions,
+    };
   }
 }
 
