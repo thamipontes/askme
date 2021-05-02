@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const Question = require('./question');
+const xml2js = require('xml2js');
 
 /**
  * Representa um questionário
@@ -43,12 +44,28 @@ class Quiz {
    * Converte o questionário em um XML
    * @return {string}
    */
-  toXML() {
-    const xml = '<quiz>' + this.questions.map((q) => {
-      q.toXML();
-    }).join('') + '</quiz>';
+  toXMLModel() {
+    return {
+      Quiz: {
+        Questions: this.questions.map((q) => q.toXMLModel()),
+      },
+    };
+  }
 
-    return xml;
+  /**
+   * Obtem as questões do questionário de um XML
+   * @param {string} xml
+   */
+  async getQuestionsFromXML(xml) {
+    this.questions = [];
+    const result = await xml2js.parseStringPromise(xml, {trim: true});
+
+    console.log(result.Quiz.Questions[0].Question[0].$);
+    result.Quiz.Questions.map(async (q) => {
+      console.log(q);
+      const question = Question.fromXMLModel(q);
+      this.addQuestion(question, question.number);
+    });
   }
 
   /**
@@ -56,11 +73,13 @@ class Quiz {
    * @return {object}
    */
   toObject() {
+    const builder = new xml2js.Builder();
+
     return {
       creatorId: this.creatorId,
       title: this.title,
       isAnonymous: this.isAnonymous,
-      xml: this.toXML(),
+      xml: builder.buildObject(this.toXMLModel()),
     };
   }
 
@@ -85,9 +104,10 @@ class Quiz {
   /**
    * Adiciona uma questão ao questionário
    * @param {Question} question
+   * @param {number} number
    */
-  addQuestion(question) {
-    question.number = this.questions.length + 1;
+  addQuestion(question, number = null) {
+    question.number = number? parseInt(number) : this.questions.length + 1;
     this.questions.push(question);
   }
 }

@@ -10,16 +10,6 @@ test('getSchema should return correct schema', () => {
   });
 });
 
-test('toObject should convert properties properly', () => {
-  const quiz = new Quiz('userId', 'abcdef', true);
-  expect(quiz.toObject()).toStrictEqual({
-    creatorId: 'userId',
-    title: 'abcdef',
-    isAnonymous: true,
-    xml: '<quiz></quiz>',
-  });
-});
-
 test('setId should set id properly', () => {
   const quiz = new Quiz('userId', 'abcdef', true);
   quiz.setId('quizId');
@@ -69,3 +59,27 @@ test('addQuestion should addQuestion properly and set its number', () => {
 
   expect(quiz.questions).toStrictEqual([question1, question2]);
 });
+
+test('toXML should generate XML to be parsed by getQuestionsFromXML',
+    async () => {
+      const quiz = new Quiz('userId', 'abcdef', true);
+
+      const question1 = new Question('abcde', 'Open');
+      const question2 = new Question('abcde2', 'Open');
+      const question3 = new Question('abcde3', 'ChooseOne');
+
+      question3.addItem('test');
+
+      quiz.addQuestion(question1);
+      quiz.addQuestion(question2);
+      quiz.addQuestion(question3);
+
+      const xml = quiz.toObject().xml;
+
+      const quizParsed = new Quiz('userId', 'abcdef', true);
+
+      await quizParsed.getQuestionsFromXML(xml);
+
+      expect(quizParsed.questions).toStrictEqual(quiz.questions);
+    },
+);

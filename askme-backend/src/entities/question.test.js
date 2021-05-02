@@ -1,4 +1,5 @@
 const Question = require('./question');
+const xml2js = require('xml2js');
 
 const exampleData = {
   enunciation: 'Qual a cor do cavalo branco de Napoleão',
@@ -35,7 +36,10 @@ test('toXML and fromXML should return handle question properly', async () => {
   question.addItem('O cavalo branco de napoleão é branco');
   question.addItem('O cavalo branco de napoleão é vermelho');
 
-  const questionParsed = await Question.fromXMLAsync(question.toXML());
+  const builder = new xml2js.Builder();
+  const xml = builder.buildObject(question.toXMLModel());
+  const parsed = await xml2js.parseStringPromise(xml, {trim: true});
+  const questionParsed = Question.fromXMLModel(parsed);
 
   expect(question.enunciation).toBe(questionParsed.enunciation);
   expect(question.number).toBe(questionParsed.number);

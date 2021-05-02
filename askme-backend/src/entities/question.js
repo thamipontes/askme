@@ -1,5 +1,3 @@
-const xml2js = require('xml2js');
-
 /**
  * Representa uma questão em um questionário
  */
@@ -29,17 +27,15 @@ class Question {
   }
 
   /**
-   * Converte uma questão para XML
-   * @return {string} XML
+   * Converte uma questão para Modelo de XML
+   * @return {object}
    */
-  toXML() {
-    const builder = new xml2js.Builder();
-
-    return builder.buildObject({
+  toXMLModel() {
+    return {
       Question: {
         $: {
           type: this.type,
-          number: this.number,
+          number: this.number.toString(),
         },
         Enunciation: this.enunciation,
         Items: {
@@ -53,27 +49,35 @@ class Question {
           }),
         },
       },
-    });
+    };
   }
 
   /**
    * Converte XML para questão
-   * @param {string} xml
+   * @param {object} xmlModel
    * @return {Question}
    */
-  static async fromXMLAsync(xml) {
+  static fromXMLModel(xmlModel) {
     const question = new Question();
 
-    const result = await xml2js.parseStringPromise(xml, {
-      trim: true,
-    });
-    question.number = parseInt(result.Question.$.number);
-    question.type = result.Question.$.type;
-    question.enunciation = result.Question.Enunciation[0];
+    let questionModel = null;
+    if (xmlModel.Question instanceof Array) {
+      questionModel = xmlModel.Question[0];
+    } else {
+      questionModel = xmlModel.Question;
+    }
 
-    result.Question.Items[0].QuestionItem.map((qi) => {
-      question.addItem(qi.Enunciation[0], parseInt(qi.$.number));
-    });
+    question.number = parseInt(questionModel.$.number);
+    question.type = questionModel.$.type;
+    question.enunciation = questionModel.Enunciation[0];
+
+    const items = questionModel.Items[0]?.QuestionItem;
+
+    if (items) {
+      items.map((qi) => {
+        question.addItem(qi.Enunciation[0], parseInt(qi.$.number));
+      });
+    }
 
     return question;
   }
