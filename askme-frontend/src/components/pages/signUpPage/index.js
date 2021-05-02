@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import UserService from '../../../services/user.service';
+import './index.css';
 
 /**
  * Obtem o componente da pagina de cadastro
@@ -62,38 +63,40 @@ function SignUpPage() { // issue: I-12
    * @return {React.Component}
    */
   return (
-    <Container className="w-100">
-      <Row>
-        <Col className="d-flex justify-content-center">
-          <BoxedForm title="Cadastre-se"
-            submitText="Cadastrar!"
-            alternativeLinkRoute="/login"
-            alternativeLinkText="Já tenho uma conta"
-            onSubmit={handleSubmit}>
-            <FormInput label="Email"
-              name="email"
-              type="text"
-              value={email}
-              onChange={handleChange}></FormInput>
-            <FormInput label="Nome"
-              name="name"
-              type="text"
-              value={name}
-              onChange={handleChange}></FormInput>
-            <FormInput label="Senha"
-              name="password"
-              type="password"
-              value={password}
-              onChange={handleChange}></FormInput>
-            <FormInput label="Confirmação de senha"
-              name="passwordConfirmation"
-              type="password"
-              value={passwordConfirmation}
-              onChange={handleChange}></FormInput>
-          </BoxedForm>
-        </Col>
-      </Row>
-    </Container>
+    <div className='login-background'>
+      <Container className='container'>
+        <Row>
+          <Col>
+            <BoxedForm title="Cadastre-se"
+              submitText="Cadastrar!"
+              alternativeLinkRoute="/login"
+              alternativeLinkText="Já tenho uma conta"
+              onSubmit={handleSubmit}>
+              <FormInput label="Email"
+                name="email"
+                type="text"
+                value={email}
+                onChange={handleChange}></FormInput>
+              <FormInput label="Nome"
+                name="name"
+                type="text"
+                value={name}
+                onChange={handleChange}></FormInput>
+              <FormInput label="Senha"
+                name="password"
+                type="password"
+                value={password}
+                onChange={handleChange}></FormInput>
+              <FormInput label="Confirmação de senha"
+                name="passwordConfirmation"
+                type="password"
+                value={passwordConfirmation}
+                onChange={handleChange}></FormInput>
+            </BoxedForm>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 

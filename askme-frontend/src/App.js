@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/global.css';
 import logo from './assets/icons/rocket.svg';
 
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -25,7 +26,7 @@ function App() {
   return (
     <div>
       {/* issue: I-13 */}
-      <Navbar bg="dark" variant="dark">
+      <Navbar>
         <Navbar.Brand href="/">
           <img
             alt=""
