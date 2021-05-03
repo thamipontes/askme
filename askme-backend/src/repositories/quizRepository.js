@@ -49,6 +49,7 @@ class QuizRepository {
           quizSaved.isAnonymous,
       );
       result.setId(quizSaved._id);
+      result.getQuestionsFromXML(quizSaved.xml);
     } catch (err) {
       throw new Error(`Falha ao salvar questionário: ${err}`);
     }
@@ -91,6 +92,7 @@ class QuizRepository {
         );
 
         quiz.setId(quizModel._id);
+        quiz.getQuestionsFromXML(quizModel.xml);
 
         return quiz;
       });
@@ -99,6 +101,34 @@ class QuizRepository {
     }
 
     return result;
+  }
+
+  /**
+   * Obtem um quiz por uma query
+   * @param {object} query
+   * @return {Quiz}
+   */
+  static async getOneQuizByQuery(query) {
+    try {
+      const queryResult = await this.Model.findOne(query);
+
+      if (queryResult==null) {
+        return null;
+      }
+
+      const quiz = new Quiz(
+          queryResult.creatorId,
+          queryResult.title,
+          queryResult.isAnonymous,
+      );
+
+      quiz.setId(queryResult._id);
+      quiz.getQuestionsFromXML(queryResult.xml);
+
+      return quiz;
+    } catch (err) {
+      throw new Error(`Falha ao obter questionários por query: ${err}`);
+    }
   }
 
   /**
@@ -111,6 +141,46 @@ class QuizRepository {
   static async getQuizzesByCreatorId(creatorId, offset, limit) {
     // issue: I-14
     return await this.getQuizzesByQuery({creatorId: creatorId}, offset, limit);
+  }
+
+  /**
+   * Obtem um quiz pelo seu id
+   * @param {string} quizId
+   * @return {Quiz}
+   */
+  static async getQuizById(quizId) {
+    return await this.getOneQuizByQuery({_id: quizId});
+  }
+
+  /**
+   * Atualiza um quiz
+   * @param {Quiz} quiz
+   * @return {Quiz} Resultado da operação
+   */
+  static async updateQuiz(quiz) {
+    if (!quiz.id) {
+      throw new Error('Falha ao atualizar quiz: id vazio');
+    }
+
+    try {
+      const queryResult = await this.Model.findById(quiz.id);
+
+      Object.assign(queryResult, quiz.toObject());
+
+      const updateResult = await queryResult.save();
+
+      const result = new Quiz(
+          updateResult.creatorId,
+          updateResult.title,
+          updateResult.isAnonymous,
+      );
+
+      result.setId(updateResult._id);
+      await result.getQuestionsFromXML(updateResult.xml);
+      return result;
+    } catch (err) {
+      throw new Error(`Falha ao atualizar quiz: ${err}`);
+    }
   }
 }
 

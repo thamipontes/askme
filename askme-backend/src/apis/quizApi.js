@@ -1,5 +1,10 @@
 const express = require('express');
+const QuestionItemModel = require('../models/question.questionItemModel');
+const QuestionModel = require('../models/question.questionModel');
 const QuizCreateCommand = require('../models/quiz.createCommand');
+const EditQuizInfoCommand = require('../models/quiz.editQuizInfoCommand');
+// eslint-disable-next-line max-len
+const EditQuizQuestionsCommand = require('../models/quiz.editQuizQuestionsCommand');
 const QuizService = require('../services/quizService');
 const TokenService = require('../services/tokenService');
 const UserService = require('../services/userService');
@@ -61,6 +66,54 @@ quizRouter.post('', async (req, res, next) => {
   res.status(200);
   res.send(apiResponse(true,
       'Questionário criado com sucesso!', result.toObject()));
+});
+
+quizRouter.put('/:id', async (req, res, next) => {
+  let result = null;
+
+  try {
+    const token = TokenService.getRequiredTokenFromRequest(req);
+    const operatorId = TokenService.getUserIdFromToken(token);
+
+    result = await QuizService.editQuizInformation(operatorId, req.params.id,
+        new EditQuizInfoCommand(
+            req.body.title,
+        ));
+  } catch (err) {
+    next(err);
+    return;
+  }
+
+  res.send(apiResponse(
+      true, 'Questionário atualizado com sucesso!', result.toObject()));
+});
+
+quizRouter.put('/:id/questions', async (req, res, next) => {
+  let result = null;
+
+  try {
+    const token = TokenService.getRequiredTokenFromRequest(req);
+    const operatorId = TokenService.getUserIdFromToken(token);
+
+    result = await QuizService.editQuizQuestions(operatorId, req.params.id,
+        new EditQuizQuestionsCommand(
+            req.body.questions.map((q) => {
+              return new QuestionModel(q.number,
+                  q.enunciation,
+                  q.type,
+                  q.items.map((i) => {
+                    return new QuestionItemModel(i.number, i.enunciation);
+                  }),
+              );
+            }),
+        ));
+  } catch (err) {
+    next(err);
+    return;
+  }
+
+  res.send(apiResponse(
+      true, 'Questionário atualizado com sucesso!', result.toObject()));
 });
 
 module.exports = quizRouter;

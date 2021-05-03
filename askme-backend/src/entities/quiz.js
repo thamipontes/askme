@@ -1,3 +1,7 @@
+// eslint-disable-next-line no-unused-vars
+const Question = require('./question');
+const xml2js = require('xml2js');
+
 /**
  * Representa um questionário
  */
@@ -37,12 +41,31 @@ class Quiz {
   }
 
   /**
-   * Converte as questões do questionário em um XML
+   * Converte o questionário em um XML
    * @return {string}
    */
-  convertQuestionsToXML() {
-    // TODO: improve this method
-    return '';
+  toXMLModel() {
+    return {
+      Quiz: {
+        Questions: this.questions.map((q) => q.toXMLModel()),
+      },
+    };
+  }
+
+  /**
+   * Obtem as questões do questionário de um XML
+   * @param {string} xml
+   */
+  async getQuestionsFromXML(xml) {
+    this.questions = [];
+    const result = await xml2js.parseStringPromise(xml, {trim: true});
+
+    if (result.Quiz?.Questions) {
+      result.Quiz.Questions.map(async (q) => {
+        const question = Question.fromXMLModel(q);
+        this.addQuestion(question, question.number);
+      });
+    }
   }
 
   /**
@@ -50,11 +73,13 @@ class Quiz {
    * @return {object}
    */
   toObject() {
+    const builder = new xml2js.Builder();
+
     return {
       creatorId: this.creatorId,
       title: this.title,
       isAnonymous: this.isAnonymous,
-      xml: this.convertQuestionsToXML(),
+      xml: builder.buildObject(this.toXMLModel()),
     };
   }
 
@@ -74,6 +99,16 @@ class Quiz {
     }
 
     return true;
+  }
+
+  /**
+   * Adiciona uma questão ao questionário
+   * @param {Question} question
+   * @param {number} number
+   */
+  addQuestion(question, number = null) {
+    question.number = number? parseInt(number) : this.questions.length + 1;
+    this.questions.push(question);
   }
 }
 
