@@ -165,7 +165,7 @@ class QuizRepository {
     try {
       const queryResult = await this.Model.findById(quiz.id);
 
-      queryResult.title = quiz.title;
+      Object.assign(queryResult, quiz.toObject());
 
       const updateResult = await queryResult.save();
 
@@ -176,8 +176,7 @@ class QuizRepository {
       );
 
       result.setId(updateResult._id);
-      result.getQuestionsFromXML(updateResult.xml);
-
+      await result.getQuestionsFromXML(updateResult.xml);
       return result;
     } catch (err) {
       throw new Error(`Falha ao atualizar quiz: ${err}`);

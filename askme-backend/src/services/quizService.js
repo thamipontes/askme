@@ -7,11 +7,15 @@ const QuizRepository = require('../repositories/quizRepository');
 const ValidationException = require('./validationException');
 const QuizModel = require('../models/quiz.quizModel');
 // eslint-disable-next-line no-unused-vars
-const EditQuizInfoCommand = require('../models/quiz.editQuizInfoCommand');
+const EditQuizQuestionsCommand =
+  require('../models/quiz.editQuizQuestionsCommand');
 const ServiceException = require('./serviceException');
 const AuthorizationException = require('./authorizationException');
 // eslint-disable-next-line no-unused-vars
 const QuizFullModel = require('../models/quiz.quizFullModel');
+const QuestionModel = require('../models/question.questionModel');
+const QuestionItemModel = require('../models/question.questionItemModel');
+const Question = require('../entities/question');
 
 /**
  * Serviço para operações com questionários
@@ -97,6 +101,56 @@ class QuizService {
         result.title,
         result.isAnonymous,
     );
+  }
+
+  /**
+   * Edita as informações de um questionário
+   * @param {string} operatorId Id de quem solicita a ação
+   * @param {string} quizId
+   * @param {EditQuizQuestionsCommand} command
+   * @return {QuizFullModel}
+   */
+  static async editQuizQuestions(operatorId, quizId, command) {
+    if (!quizId || !command.isValid()) {
+      throw new ValidationException('Informações inválidas');
+    }
+
+    const quiz = await QuizRepository.getQuizById(quizId);
+
+    if (!quiz) {
+      throw new ServiceException('Não foi possível encontrar o quiz '+quizId);
+    }
+
+    if (quiz.creatorId != operatorId) {
+      throw new AuthorizationException(
+          'Permissão insuficiente para realizar esta ação');
+    }
+
+    quiz.questions = command.questions.map((q) => {
+      const question = new Question(
+          q.enunciation, q.type,
+      );
+
+      question.number = q.number;
+      q.items.map((i) => {
+        question.addItem(i.enunciation, i.number);
+      });
+      return question;
+    });
+    const result = await QuizRepository.updateQuiz(quiz);
+
+    return new QuizFullModel(
+        result.id,
+        result.creatorId,
+        result.title,
+        result.isAnonymous,
+        result.questions.map((q) => {
+          return new QuestionModel(
+              q.number, q.enunciation, q.type, q.items.map((i) => {
+                return new QuestionItemModel(i.number, i.enunciation);
+              }),
+          );
+        }));
   }
 }
 

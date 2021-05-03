@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-unused-vars
+const QuestionModel = require('./question.questionModel');
 const QuizModel = require('./quiz.quizModel');
 
 /**
@@ -10,7 +12,7 @@ class QuizFullModel extends QuizModel {
    * @param {string} creatorId
    * @param {string} title
    * @param {boolean} isAnonymous
-   * @param {*} questions
+   * @param {QuestionModel} questions
    */
   constructor(id, creatorId, title, isAnonymous, questions) {
     // issue: I-24
@@ -28,7 +30,7 @@ class QuizFullModel extends QuizModel {
       creatorId: this.creatorId,
       title: this.title,
       isAnonymous: this.isAnonymous,
-      questions: this.questions,
+      questions: this.questions.map((q) => q.toObject()),
     };
   }
 }
