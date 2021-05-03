@@ -1,0 +1,3 @@
+27/04	| 25min	| Estudar aulas e laboratórios relacionados	| Estudo de tecnologia utilizada: React JS
+01/05	| 30min	| Estudar aulas e laboratórios relacionados	| Estudo de tecnologia utilizada: React JS
+02/05	| 40min	| Projetar	| Planejamento do desenvolvimento a ser feito na próxima sprint
