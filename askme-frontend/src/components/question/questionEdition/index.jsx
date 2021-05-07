@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import QuestionTypes from '../../../models/question/questionType';
 import QuestionOpenEditComponent from './questionOpenEdit';
 import QuestionChooseOneEditComponent from './questionChooseOne';
+import QuestionTrueOrFalseEditComponent from './questionTrueOrFalse';
 
 const useStyles = makeStyles({
   root: {
@@ -69,6 +70,10 @@ const QuestionEditionComponent = (props) => {
           items={props.items}
           onItemsChange={handleItemsChange}>
         </QuestionChooseOneEditComponent>;
+      case QuestionTypes.TrueOrFalse:
+        return <QuestionTrueOrFalseEditComponent
+          items={props.items}>
+        </QuestionTrueOrFalseEditComponent>;
     }
   };
 

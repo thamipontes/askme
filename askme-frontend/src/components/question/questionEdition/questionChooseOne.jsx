@@ -98,8 +98,7 @@ const QuestionChooseOneEditComponent = (props) => {
   return (
     <React.Fragment>
       <FormControl component="fieldset">
-        <RadioGroup
-          value={value}>
+        <RadioGroup value={value}>
           {
             items.map((opt, idx) => {
               return (

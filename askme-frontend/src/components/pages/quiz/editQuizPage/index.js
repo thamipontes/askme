@@ -14,6 +14,11 @@ const EditQuizPage = () => {
         number={2} enunciation="abacaxi"
         items={['test', 'batata']}>
       </QuestionEditionComponent>
+      <QuestionEditionComponent
+        type={QuestionTypes.TrueOrFalse}
+        number={3} enunciation="abacaxi"
+        items={['test', 'batata']}>
+      </QuestionEditionComponent>
     </React.Fragment>
   );
 };
