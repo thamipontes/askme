@@ -27,4 +27,12 @@ export default class QuizService {
       isAnonymous: isAnonymous,
     });
   }
+
+  /**
+   * Realiza requisição para obter informações de um Quiz
+   * @param {string} id
+   */
+  static async getQuizById(id) {
+    return await API.get(`${apiRoute}/${id}`);
+  }
 };

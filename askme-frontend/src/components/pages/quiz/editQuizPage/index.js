@@ -33,7 +33,7 @@ const mock = new QuizModel('test quiz', [
   ]),
 ]);
 
-const EditQuizPage = () => {
+const EditQuizPage = (props) => {
   const classes = useStyles();
   const [model, setModel] = useState(mock);
   const [addingQuestion, setAddingQuestion] = useState(false);
