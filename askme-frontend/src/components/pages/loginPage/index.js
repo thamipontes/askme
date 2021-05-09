@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import UserService from '../../../services/user.service';
+import './index.css';
 
 /**
  * Componente da página de login
@@ -62,28 +63,30 @@ class LoginPage extends React.Component { // issue: I-16
    */
   render() {
     return (
-      <Container className="w-100">
-        <Row>
-          <Col className="d-flex justify-content-center">
-            <BoxedForm title="Login"
-              submitText="Entrar"
-              alternativeLinkRoute="/signup"
-              alternativeLinkText="Não tenho uma conta"
-              onSubmit={this.handleSubmit}>
-              <FormInput label="Email"
-                name="email"
-                type="text"
-                value={this.state.email}
-                onChange={this.handleChange}></FormInput>
-              <FormInput label="Senha"
-                name="password"
-                type="password"
-                value={this.state.password}
-                onChange={this.handleChange}></FormInput>
-            </BoxedForm>
-          </Col>
-        </Row>
-      </Container>
+      <div className='login-background'>
+        <Container className='container'>
+          <Row>
+            <Col>
+              <BoxedForm title="Login"
+                submitText="Entrar"
+                alternativeLinkRoute="/signup"
+                alternativeLinkText="Não tenho uma conta"
+                onSubmit={this.handleSubmit}>
+                <FormInput label="Email"
+                  name="email"
+                  type="text"
+                  value={this.state.email}
+                  onChange={this.handleChange}></FormInput>
+                <FormInput label="Senha"
+                  name="password"
+                  type="password"
+                  value={this.state.password}
+                  onChange={this.handleChange}></FormInput>
+              </BoxedForm>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
   }
 }

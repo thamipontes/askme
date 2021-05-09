@@ -18,7 +18,7 @@ function BoxedForm(props) {
    */
 
   return (
-    <Form className="w-75 border p-3">
+    <Form>
       <h1>{props.title}</h1>
       {props.children}
       <Button className="w-100"

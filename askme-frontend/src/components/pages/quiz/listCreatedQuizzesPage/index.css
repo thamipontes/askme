@@ -12,3 +12,27 @@
     90% da tela.*/
     max-width: 700px;
 }
+
+
+#page-quiz-create-button{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+  
+    width: 70px;
+    height: 70px;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    border-radius: 50%;
+  
+    color: white;
+    background-color: var(--color-secundary);
+  }
+  
+  #page-quiz-create-button:hover {
+    color: var(--color-text-title);
+    background-color: var(--color-secundary-dark); 
+  }

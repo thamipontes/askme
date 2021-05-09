@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import QuizService from '../../../../services/quiz.service';
 import QuizItem from '../../../forms/QuizItem';
-import './createButton.css';
+import './index.css';
 
 /**
  * Componente de página de listagem de questionários criados por usuário

@@ -51,9 +51,9 @@ const CreateQuizPage = () => { // issue: I-23
    * @return {React.Component}
    */
   return (
-    <Container className="w-100">
+    <Container>
       <Row>
-        <Col className="d-flex justify-content-center">
+        <Col>
           <BoxedForm title="Criar questionário"
             submitText="Criar!"
             onSubmit={handleSubmit}>
