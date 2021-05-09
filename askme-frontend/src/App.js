@@ -1,23 +1,71 @@
-import logo from './logo.svg';
 import './App.css';
+import SignUpPage from './components/pages/signUpPage';
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './assets/global.css';
+import logo from './assets/icons/rocket.svg';
 
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
+import LoginPage from './components/pages/loginPage';
+import ListCreatedQuizzesPage from
+  './components/pages/quiz/listCreatedQuizzesPage';
+import {Navbar} from 'react-bootstrap';
+import CreateQuizPage from './components/pages/quiz/createQuizPage';
+import EditQuizPage from './components/pages/quiz/editQuizPage';
+import QuizDetailsPage from './components/pages/quiz/quizDetailsPage';
+
+/**
+* Gets the App to render
+* @return {React.Component} App component
+*/
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* issue: I-13 */}
+      <Navbar>
+        <Navbar.Brand href="/">
+          <img
+            alt=""
+            src={logo}
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{' '}
+      Cyber Questionário
+        </Navbar.Brand>
+      </Navbar>
+      <Router>
+        <Switch>
+          <Route exact path="/signup">
+            <SignUpPage />
+          </Route>
+          <Route exact path="/login">
+            <LoginPage />
+          </Route>
+          <Route exact path="/quiz">
+            <ListCreatedQuizzesPage />
+          </Route>
+          <Route exact path="/quiz/create">
+            <CreateQuizPage />
+          </Route>
+          <Route exact path="/quiz/:id">
+            <QuizDetailsPage />
+          </Route>
+          <Route exact path="/quiz/:id/edit">
+            <EditQuizPage />
+          </Route>
+          <Route exact path="/test">
+            <EditQuizPage />
+          </Route>
+          <Redirect exact from="/" to="/login"></Redirect>
+        </Switch>
+      </Router>
     </div>
   );
 }

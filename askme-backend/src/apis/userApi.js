@@ -1,19 +1,54 @@
-const express = require("express");
-const User = require("../entities/user");
-const userRouter = express.Router();
-const ApiResponse = require('./apiResponse');
+const express = require('express');
+const apiResponse = require('./apiResponse');
 const UserService = require('../services/userService');
+const UserCreateCommand = require('../models/user.createCommand');
+const UserLoginCommand = require('../models/user.loginCommand');
 
-userRouter.post("/create", async (req, res) => {
-    var result = await UserService.createUser(new User(req.body.name, req.body.password));
+// eslint-disable-next-line new-cap
+const userRouter = express.Router();
 
-    if(result==null) {
-        res.sendStatus(400);
-        return;
-    }
+// issue: I-12
+const userCreateHandler = async (req, res, next) => {
+  let result = null;
+  try {
+    result = await UserService.createUser(
+        new UserCreateCommand(
+            req.body.email,
+            req.body.name,
+            req.body.password,
+            req.body.passwordConfirmation),
+    );
+  } catch (err) {
+    next(err);
+    return;
+  }
 
-    res.status(200);
-    res.send(ApiResponse(true, "Successfully created user!", result.toObject()));
-});
+  res.status(200);
+  res.send(apiResponse(true, 'Usuário criado com sucesso!', result.toObject()));
+};
+userRouter.post('', userCreateHandler);
+
+// issue: I-16
+const userLoginHandler = async (req, res, next) => {
+  let result = null;
+
+  try {
+    result = await UserService.loginUser(
+        new UserLoginCommand(
+            req.body.email,
+            req.body.password,
+        ),
+    );
+  } catch (err) {
+    next(err);
+    return;
+  }
+
+  res.status(200);
+  res.send(apiResponse(true, 'Login realizado com sucesso!', {
+    token: result,
+  }));
+};
+userRouter.post('/login', userLoginHandler);
 
 module.exports = userRouter;

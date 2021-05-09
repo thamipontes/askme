@@ -1,0 +1,12 @@
+.login-background{
+    background-image: url(../../../assets/images/background.jpg);
+    height: 100vh;
+    background-size: cover;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    padding-top: 8rem;
+    border: 0 !important;
+}; 

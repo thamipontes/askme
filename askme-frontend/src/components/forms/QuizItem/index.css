@@ -1,0 +1,173 @@
+.quiz-item{
+    background: var(--color-box-base);
+    border: 1px solid var(--color-line-in-white);
+    border-radius: 0.8rem;
+    margin-top: 2.4rem;
+    overflow: hidden;
+}
+
+.quiz-item header{
+    /* Dar um padding em cima e embaixo de 3.2rem e nas laterais de 2 rem */
+    padding: 3.2rem 2rem;
+    display: flex;
+    align-items: center;
+}
+
+
+.quiz-item header div{
+    /* Afastar um pouco o nome da imagem */
+    margin-left: 2.4rem;
+}
+
+.quiz-item header div strong{
+    /* Deixar em negrito e tamanho de 2.4rem com a fonte Poppins*/
+    font: 700 2.4rem Poppins;
+    /* Para quebrar a linha */
+    display: block;
+    color: var(--color-text-title);
+}
+
+.quiz-item header div span{
+    font-size: 1.6rem;
+    /*Quebra a linha*/
+    display: block;
+    /* Dá um espaço no topo */
+    margin-top: 0.4rem;
+}
+
+/* O p do primeiro nivel que está dentro da classe quiz-item */
+.quiz-item > p{
+    /* Em cima e embaixo zero e nas laterais 2rem*/
+    padding: 0 2rem;
+    font-size: 1.6rem;
+    line-height: 2.8rem;
+}
+
+.quiz-item footer{
+    padding: 3.2rem 2rem;
+    background: var(--color-box-footer);
+    border-top: 1px solid var(--color-line-in-white);
+    display: flex;
+    align-items: center;
+    /* Deixa cada item no seu extremo */
+    justify-content: space-between;
+}
+
+.quiz-item footer p strong{
+    color: var(--color-primary);
+    font-size: 1.6rem;
+    display: block;
+}
+
+
+.quiz-item footer a{
+    width: 20rem;
+    height: 5.6rem;
+    background: var(--color-secundary);
+    border: 0;
+    color: var(--color-button-text);
+    border-radius: 0.8rem;
+    /* Quando passar o mouse por cima mostrar o curso de clicar */
+    cursor: pointer;
+    font: 700 1.4rem Poppins;
+    display: flex;
+    align-items: center;
+    /* Deixar espaçado igualmente os itens do botão */
+    justify-content: space-evenly;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.quiz-item footer a:hover{
+    background: var(--color-secundary-dark);
+}
+
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    margin: 3.2rem 0;
+}
+
+.buttons-container a {
+    width: 30rem;
+    height: 10.4rem;
+    border-radius: 0.8rem;
+    font: 700 2.0rem Poppins;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    text-decoration: none;
+    color: var(--color-button-text);
+    transition: background-color 0.2s;    
+}
+
+.buttons-container a:first-child{
+    margin-right: 1.6rem;
+}
+
+.buttons-container a img {
+    width: 4rem;
+    margin-right: 2.4rem;
+}
+
+.buttons-container a.info {
+    border: 3px solid var(--color-button-text);
+    /* Transição para mudança da cor da letra */
+    transition: color 0.2s;
+}
+
+.buttons-container a.delete {
+    border: 3px solid var(--color-button-text);
+    background-color: red;
+    transition: color 0.2s;
+    /* Transição para mudança da cor da letra */
+}
+
+.buttons-container a.delete:hover {    
+    background-color: rgb(131, 4, 4);
+    color: black;
+}
+
+.buttons-container a.info:hover {    
+    color: black;
+}
+
+@media only screen and (max-width: 600px) {
+    .quiz-item {
+        width: 90%;
+    }
+
+    /* O p do primeiro nivel que está dentro da classe quiz-item */
+    .quiz-item > p{
+        /* Em cima e embaixo zero e nas laterais 2rem*/
+        padding: 0 2rem;
+        font-size: 0.5rem;
+        line-height: 2.8rem;
+    }
+
+    .quiz-item footer {
+        padding: 0;
+    }
+
+    .quiz-item footer a {
+        margin: 0;
+        width: 90%;
+
+        display: flex;
+        justify-content: center;
+    }
+
+    .buttons-container a:first-child {
+        margin: 0;
+    }
+
+    .buttons-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+}

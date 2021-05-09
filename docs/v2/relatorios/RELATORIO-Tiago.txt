@@ -1,0 +1,2 @@
+27/04	| 10m	| Projetar	| Criando tela inicial de responder questionários
+28/04	| 2h	| Projetar	| Implementação das entidades de resposta

@@ -1,0 +1,38 @@
+#page-quiz-list main{
+    /* Margem em cima e embaixo e o auto para ficar centralizado */
+    margin: 3.2rem auto;
+    /* Para ter as bordas do lado que no caso poderia ser o padding também */
+    width: 100%;
+}
+
+.container{
+    /*Ocupa 90% da tela horizontalmente*/
+    width: 90vw;
+    /*O limite da tela é 700px, assm enquanto estiver dentro dos 700px ela vai ocupar
+    90% da tela.*/
+    max-width: 700px;
+}
+
+
+#page-quiz-create-button{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+  
+    width: 70px;
+    height: 70px;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    border-radius: 50%;
+  
+    color: white;
+    background-color: var(--color-secundary);
+  }
+  
+  #page-quiz-create-button:hover {
+    color: var(--color-text-title);
+    background-color: var(--color-secundary-dark); 
+  }

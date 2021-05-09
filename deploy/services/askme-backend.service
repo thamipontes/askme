@@ -1,0 +1,14 @@
+[Unit]
+Description=Askme Backend
+
+[Service]
+User=root
+WorkingDirectory=/deploy/askme
+ExecStart=/bin/bash /deploy/askme/deploy/scripts/runBackend.sh
+Restart=always
+RestartSec=90
+StartLimitIntervalSec=400
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target

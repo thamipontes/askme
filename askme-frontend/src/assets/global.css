@@ -1,0 +1,64 @@
+:root{
+    --color-background: #F0F0F7;
+    --color-primary-lighter: #9871F5;
+    --color-primary-light: #916BEA;
+    --color-primary: #EF6C00;
+    --color-primary-dark: #774DD6;
+    --color-primary-darker: #6842C2;
+    --color-secundary: #04D361;
+    --color-secundary-dark: #04BF58;
+    --color-title-in-primary: #FFFFFF;
+    --color-text-in-primary: #D4C2FF;
+    --color-text-title: #32264D;
+    --color-text-complement: #9C98A6;
+    --color-text-base: #6A6180;
+    --color-line-in-white: #E6E6F0;
+    --color-input-background: #F8F8FC;
+    --color-button-text: #FFFFFF;
+    --color-box-base: #FFFFFF;
+    --color-box-footer: #FAFAFC;
+}
+
+.btn-primary{
+    background-color: var(--color-secundary);
+    font: 700 1.3rem Poppins;
+    color: var(--color-button-text);
+    border:0;
+    border-radius: 0.8rem;
+    transition: background-color 0.2s; 
+}
+
+.btn-primary:hover {    
+    background-color: var(--color-secundary-dark);
+    border: 0;
+    color: black;
+}
+
+.form-control{
+    width: 100%;
+    height: 3rem;
+    margin-top: 0.8rem;
+    border-radius: 0.8rem;
+    background: var(--color-input-background);
+    border: 1px solid var(--color-line-in-white);
+    outline: 0;
+    padding: 0 1.6rem;
+    font: 1.6rem Poppins;
+}
+
+.form-label{
+    /* Deixar em negrito e tamanho de 2.4rem com a fonte Poppins*/
+    font: 700 1rem Poppins;
+    /* Para quebrar a linha */
+    display: block;
+    color: var(--color-text-title);
+}
+
+h1{
+    /* Deixar em negrito e tamanho de 2.4rem com a fonte Poppins*/
+    font: 700 2.4rem Poppins;
+    /* Para quebrar a linha */
+    display: block;
+    color: var(--color-text-title);
+    margin-bottom: 2rem;
+}

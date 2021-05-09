@@ -1,56 +1,105 @@
 const User = require('../entities/user');
+// eslint-disable-next-line no-unused-vars
 const mongoose = require('mongoose');
 
+/**
+ * Implementa padrão de repositórios para a entidade usuário
+ */
 class UserRepository {
-    static _mongooseInstance = null;
-    static get mongoose() {
-        if(this._mongooseInstance==null) {
-            throw new Error("UserRepository not inited");
-        }
-
-        return this._mongooseInstance;
+  /**
+   * Getter para a instância de mongoose
+   */
+  static get mongoose() {
+    if (this._mongooseInstance==null) {
+      throw new Error('UserRepository not inited');
     }
 
-    static schema = null;
-    static model = null;
+    return this._mongooseInstance;
+  }
 
-    /**
-     * @param {mongoose.Mongoose} mongooseInstance
-     */
-    static init(mongooseInstance) {
-        this._mongooseInstance = mongooseInstance;
-        this.schema = new mongooseInstance.Schema(User.getSchema());
-        this.model = this.mongoose.model('User', this.schema);
+  /**
+   * Gera schema e model do mongoose para a entidade User
+   * @param {mongoose.Mongoose} mongooseInstance
+   */
+  static init(mongooseInstance) {
+    this._mongooseInstance = mongooseInstance;
+    this.schema = new mongooseInstance.Schema(User.getSchema());
+    this.Model = this.mongoose.model('User', this.schema);
+  }
+
+  /**
+   * Salva um usuário no banco e retorna uma instância de User como o resultado
+   * @param {User} user
+   * @return {User}
+   */
+  static async save(user) { // issue: I-12
+    const userInstance = new this.Model(user.toObject());
+
+    let result = null;
+    try {
+      const userSaved = await userInstance.save();
+
+      result = new User(
+          userSaved.email,
+          userSaved.name,
+          userSaved.password,
+      );
+      result.setId(userSaved._id);
+    } catch (err) {
+      throw new Error(`Falha ao salvar usuário: ${err}`);
     }
 
-    /**
-     * @param {User} user 
-     */
-    static async save(user) {
-        var userInstance = new this.model(user.toObject());
+    return result;
+  }
 
-        var result = null;
-        try {
-            var userSaved = await userInstance.save();
-            
-            result = new User(userSaved.name, userSaved.password);
-            result.setId(userSaved._id);
-        } catch {
-            throw new Error("Failed to save user");
-        }
+  /**
+   * Obtem um usuário por meio de uma query
+   * @param {object} query
+   */
+  static async getOneUserWithQuery(query) {
+    let result = null;
 
-        return result;
+    try {
+      const queryResult = await this.Model.findOne(query);
+
+      if (queryResult==null) {
+        return null;
+      }
+
+      result = new User(
+          queryResult.email,
+          queryResult.name,
+          queryResult.password,
+      );
+      result.setId(queryResult._id);
+    } catch (err) {
+      throw new Error(`Falha ao obter usuário por query: ${err}`);
     }
 
-    static async getUserByName(name) {
-        try{
-            var result = await this.model.findOne({name: name});
-        } catch {
-            throw new Error("Failed to get user by name");
-        }
+    return result;
+  }
 
-        return result;
-    }
+  /**
+   * Obtem um usuário pelo email
+   * @param {string} email
+   * @return {User}
+   */
+  static async getUserByEmail(email) { // issue: I-12
+    return this.getOneUserWithQuery({email: email});
+  }
+
+  /**
+   * Obtem um usuário pelo id
+   * @param {string} id
+   * @return {User}
+   */
+  static async getUserById(id) {
+    return this.getOneUserWithQuery({_id: id});
+  }
 }
+
+UserRepository._mongooseInstance = null;
+UserRepository.schema = null;
+UserRepository.Model = null;
 
 module.exports = UserRepository;

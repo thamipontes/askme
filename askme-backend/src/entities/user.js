@@ -1,58 +1,80 @@
-class User {
-    static nameMinLength = 3;
-    static nameMaxLength = 20;
-    static passwordMinLength = 8;
-    static passwordMaxLength = 20;
+/**
+ * Representa um usuário no sistema
+ */
+class User { // issue: I-12
+  /**
+   * Retorna um objeto indicando os tipos de
+   * cada campo de usuário para uso na persistência
+   * @return {object}
+   */
+  static getSchema() {
+    return {
+      email: String,
+      name: String,
+      password: String,
+    };
+  }
 
-    static getSchema() {
-        return {
-            name: String,
-            password: String,
-        }
+  /**
+   * Construtor para usuário
+   * @param {string} email
+   * @param {string} name
+   * @param {string} password
+   */
+  constructor(email, name, password) {
+    this.email = email;
+    this.name = name;
+    this.password = password;
+  }
+
+  /**
+   * Setter para Id
+   * @param {string} id
+   */
+  setId(id) {
+    this.id = id;
+  }
+
+  /**
+   * Converte as propriedades de usuário para um objeto
+   * @return {Object}
+   */
+  toObject() {
+    return {
+      id: this.id,
+      email: this.email,
+      name: this.name,
+      password: this.password,
+    };
+  }
+
+  /**
+   * Valida as propriedades do usuário e retorna um booleano
+   * @return {boolean}
+   */
+  isValid() {
+    if (!this.name || !this.password ||
+      !this.email) {
+      return false;
     }
 
-    /**
-     * Represents a User
-     * @constructor
-     * @param {String} name 
-     * @param {String} password 
-     */
-    constructor(name, password) {
-        this.name = name;
-        this.password = password;
+    if (this.name.length > User.nameMaxLength ||
+      this.name.length < User.nameMinLength) {
+      return false;
     }
 
-    setId(id) {
-        this.id = id;
+    if (this.password.length > User.passwordMaxLength ||
+      this.password.length < User.passwordMinLength) {
+      return false;
     }
 
-    /**
-     * Converts the user's properties to a object
-     * @returns {Object}
-     */
-    toObject() {
-        return {
-            id: this.id,
-            name: this.name, 
-            password: this.password,
-        }
-    }
-
-    /**
-     * Validates the user's properties and returns the result
-     * @returns {boolean}
-     */
-    isValid() {
-        if(this.name.length > User.nameMaxLength || this.name.length < User.nameMinLength) {
-            return false;
-        }
-
-        if(this.password.length > User.passwordMaxLength || this.password.length < User.passwordMinLength) {
-            return false;
-        }
-
-        return true;
-    }
+    return true;
+  }
 }
+
+User.nameMinLength = 3;
+User.nameMaxLength = 20;
+User.passwordMinLength = 8;
+User.passwordMaxLength = 20;
 
 module.exports = User;

@@ -1,0 +1,5 @@
+26/04	| 1h 15m	| Gerenciar construção do software	| Deploy na AWS para facilitar verificações pelo professor/monitor
+26/04	| 45m	| Codificação de módulos	| Codificação da entidade questão
+28/04	| 1h 30m	| Projetar	| Modelagem da entidade de Questão e inicio da codificação
+01/05	| 2h	| Codificação de módulos	| Codificação da entidade de Questão e início da codificação da QuizAPI
+02/05	| 4h	| Codificação de módulos	| Correção de bugs, continuidade da codificação da QuizAPI juntamente com o frontend
