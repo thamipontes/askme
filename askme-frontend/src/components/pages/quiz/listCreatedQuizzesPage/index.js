@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import QuizService from '../../../../services/quiz.service';
 import QuizItem from '../../../forms/QuizItem';
+import FixedAddButton from '../../../utils/fixedAddButton';
 import './index.css';
 
 /**
@@ -22,16 +23,13 @@ export default function ListCreatedQuizzesPage() {
     <React.Fragment>
       {/* issue: I-23 */}
       <Link to='/quiz/create'>
-        <div id="page-quiz-create-button">
-          <i className="fas fa-plus"></i>
-        </div>
+        <FixedAddButton />
       </Link>
       <div id="page-quiz-list" className="container">
         <main>
           {quizzes.map((quiz, index) => {
             return <QuizItem key={index*2} quiz={quiz}/>;
           })}
-
         </main>
       </div>
     </React.Fragment>

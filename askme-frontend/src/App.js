@@ -41,9 +41,6 @@ function App() {
       </Navbar>
       <Router>
         <Switch>
-          <Route paht="/test">
-            <EditQuizPage></EditQuizPage>
-          </Route>
           <Route path="/signup">
             <SignUpPage></SignUpPage>
           </Route>
@@ -55,8 +52,10 @@ function App() {
           </Route>
           <Route path="/quiz/create" component={CreateQuizPage}>
           </Route>
+          <Route exact path="/test">
+            <EditQuizPage></EditQuizPage>
+          </Route>
           <Redirect exact from="/" to="/login"></Redirect>
-          <Redirect from="*" to="/test"></Redirect>
         </Switch>
       </Router>
     </div>

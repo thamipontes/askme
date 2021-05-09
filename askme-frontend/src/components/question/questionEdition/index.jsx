@@ -112,7 +112,7 @@ const QuestionEditionComponent = (props) => {
             editingEnunciation?
               <Button onClick={() => setEditingEnunciation(!editingEnunciation)}
                 variant="contained" color="primary">Salvar</Button> :
-              <Button onClick={() => setEditingEnunciation(!editingEnunciation)}
+              <Button onClick={props.onDelete}
                 variant="contained" color='secondary'>Deletar</Button>
           }
         </CardActions>
@@ -127,6 +127,7 @@ QuestionEditionComponent.propTypes = {
   number: PropTypes.number,
   enunciation: PropTypes.string,
   onChanges: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 export default QuestionEditionComponent;
