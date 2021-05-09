@@ -9,6 +9,8 @@ const QuizService = require('../services/quizService');
 const TokenService = require('../services/tokenService');
 const UserService = require('../services/userService');
 const apiResponse = require('./apiResponse');
+const AuthorizationException = require('../services/authorizationException');
+const QuizModelConverter = require('../models/quiz.modelConverter');
 
 // eslint-disable-next-line new-cap
 const quizRouter = express.Router();
@@ -88,6 +90,30 @@ quizRouter.put('/:id', async (req, res, next) => {
       true, 'Questionário atualizado com sucesso!', result.toObject()));
 });
 
+quizRouter.get('/:id', async (req, res, next) => {
+  let result = null;
+  try {
+    const token = TokenService.getRequiredTokenFromRequest(req);
+    const operatorId = TokenService.getUserIdFromToken(token);
+
+    result = await QuizService.getQuizById(req.params.id);
+
+    if (!result.creatorId == operatorId) {
+      throw new AuthorizationException(
+          'Permissão insuficiente para realizar essa ação', null);
+    }
+  } catch (err) {
+    next(err);
+    return;
+  }
+
+  const resultModel = QuizModelConverter.toFullModel(result);
+
+  res.status(200);
+  res.send(apiResponse(true,
+      'Questionário obtido com sucesso!', resultModel.toObject()));
+});
+
 quizRouter.put('/:id/questions', async (req, res, next) => {
   let result = null;
 
@@ -112,6 +138,7 @@ quizRouter.put('/:id/questions', async (req, res, next) => {
     return;
   }
 
+  res.status(200);
   res.send(apiResponse(
       true, 'Questionário atualizado com sucesso!', result.toObject()));
 });
