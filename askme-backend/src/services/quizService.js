@@ -152,6 +152,21 @@ class QuizService {
           );
         }));
   }
+
+  /**
+   * Obtem um quiz pelo id
+   * @param {string} id
+   * @return {Quiz}
+   */
+  static async getQuizById(id) {
+    const quiz = await QuizRepository.getQuizById(id);
+
+    if (!quiz) {
+      throw new ServiceException('Não foi possível encontrar o quiz '+quizId);
+    }
+
+    return quiz;
+  }
 }
 
 module.exports = QuizService;

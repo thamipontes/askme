@@ -29,7 +29,6 @@ class QuestionItemModel {
    * @return {object}
    */
   toObject() {
-    console.log(this);
     return {
       number: this.number,
       enunciation: this.enunciation,

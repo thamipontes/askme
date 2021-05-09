@@ -12,7 +12,7 @@ class QuizFullModel extends QuizModel {
    * @param {string} creatorId
    * @param {string} title
    * @param {boolean} isAnonymous
-   * @param {QuestionModel} questions
+   * @param {QuestionModel[]} questions
    */
   constructor(id, creatorId, title, isAnonymous, questions) {
     // issue: I-24

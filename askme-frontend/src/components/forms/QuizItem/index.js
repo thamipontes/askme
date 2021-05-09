@@ -22,7 +22,7 @@ function QuizItem({quiz}) { // issue: I-14
       </header>
       <footer>
         <div className="buttons-container">
-          <Link to="/login" className="info">
+          <Link to={`/quiz/${quiz.id}`} className="info">
             <img src={verMais} alt="Quiz"/>
                         Ver mais
           </Link>
@@ -39,6 +39,7 @@ function QuizItem({quiz}) { // issue: I-14
 QuizItem.propTypes = {
   quiz: PropTypes.shape({
     title: PropTypes.string,
+    id: PropTypes.string,
   }),
 };
 
