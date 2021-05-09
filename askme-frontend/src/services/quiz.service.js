@@ -35,4 +35,16 @@ export default class QuizService {
   static async getQuizById(id) {
     return await API.get(`${apiRoute}/${id}`);
   }
+
+  /**
+   * Realiza requisição para salvar as questões de um quiz
+   * @param {string} id
+   * @param {string} questions
+   * @return {object}
+   */
+  static async updateQuizQuestions(id, questions) {
+    return await API.put(`${apiRoute}/${id}/questions`, {
+      questions: questions,
+    });
+  }
 };

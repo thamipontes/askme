@@ -4,13 +4,15 @@ import QuestionModel from '../question/questionModel';
 /**
  * Representa um questionário
  */
-export default class QuizModel {
+export default class QuizFullModel {
   /**
    * Construtor para QuizModel
+   * @param {string} id
    * @param {string} title
    * @param {QuestionModel[]} questions
    */
-  constructor(title, questions) {
+  constructor(id, title, questions) {
+    this.id = id;
     this.title = title;
     this.questions = questions;
   }

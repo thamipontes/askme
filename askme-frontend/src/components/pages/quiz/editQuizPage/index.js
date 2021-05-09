@@ -1,13 +1,13 @@
-import {Typography, makeStyles} from '@material-ui/core';
-import React, {useState} from 'react';
-import QuestionItem from '../../../../models/question/questionItem';
+import {Typography, makeStyles, CircularProgress} from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router';
 import QuestionModel from '../../../../models/question/questionModel';
-import QuestionTypes from '../../../../models/question/questionType';
-import QuizModel from '../../../../models/quiz/quizModel';
 // eslint-disable-next-line max-len
 import QuestionCreationComponent from '../../../question/questionCreation/questionCreation';
+import QuizFullModel from '../../../../models/quiz/quizModel';
 import QuestionEditionComponent from '../../../question/questionEdition';
 import FixedAddButton from '../../../utils/fixedAddButton';
+import QuizService from '../../../../services/quiz.service';
 
 const useStyles = makeStyles({
   root: {
@@ -25,24 +25,58 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  rootLoading: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
 });
-
-const mock = new QuizModel('test quiz', [
-  new QuestionModel('test question', QuestionTypes.ChooseOne, 4, [
-    new QuestionItem('test item'),
-  ]),
-]);
 
 const EditQuizPage = (props) => {
   const classes = useStyles();
-  const [model, setModel] = useState(mock);
+  const [model, setModel] = useState(null);
   const [addingQuestion, setAddingQuestion] = useState(false);
+  const {id} = useParams();
+
+  useEffect(async () => {
+    const result = (await QuizService.getQuizById(id)).data.data;
+    console.log(result);
+
+    setModel(new QuizFullModel(id, result.title, result.questions));
+    console.log(model);
+  }, []);
+
+  const update = async (modelOrig) => {
+    const model = modelOrig;
+
+    model.questions = model.questions.map((q) => {
+      const qNew = q;
+      qNew.items = q.items.map((i, idx) => {
+        return {
+          number: idx + 1,
+          enunciation: i,
+        };
+      });
+
+      return qNew;
+    });
+    await QuizService.updateQuizQuestions(model.id, model.questions);
+
+    const result = (await QuizService.getQuizById(id)).data.data;
+    console.log(result);
+
+    setModel(new QuizFullModel(id, result.title, result.questions));
+    console.log(model);
+  };
 
   const handleQuestionChanges = (index, enunciation, items) => {
     const modelTemp = model;
     modelTemp.questions[index].enunciation = enunciation;
     modelTemp.questions[index].items = items;
     setModel(modelTemp);
+    update(model);
   };
 
   const handleQuestionDelete = (index) => {
@@ -53,6 +87,7 @@ const EditQuizPage = (props) => {
     modelTemp.questions = questionsTemp;
     setModel(modelTemp);
     console.log(model);
+    update(model);
   };
 
   const handleAddQuestion = (type) => {
@@ -63,9 +98,11 @@ const EditQuizPage = (props) => {
     modelTemp.questions = questionsTemp;
     setModel(modelTemp);
     setAddingQuestion(false);
+    update(model);
   };
 
   return (
+    model?
     <div className={classes.root}>
       <div className={classes.questionsContainer}>
         <div onClick={() => setAddingQuestion(true)}>
@@ -96,6 +133,9 @@ const EditQuizPage = (props) => {
             null
         }
       </div>
+    </div> :
+    <div className={classes.rootLoading}>
+      <CircularProgress />
     </div>
   );
 };

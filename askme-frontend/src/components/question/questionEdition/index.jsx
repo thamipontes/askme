@@ -52,6 +52,10 @@ const QuestionEditionComponent = (props) => {
 
   const handleEnunciationChange = (event) => {
     setEnunciation(event.target.value);
+  };
+
+  const handleEnunciationSave = () => {
+    setEditingEnunciation(!editingEnunciation);
     props.onChanges(enunciation, items);
   };
 
@@ -110,7 +114,7 @@ const QuestionEditionComponent = (props) => {
         <CardActions>
           {
             editingEnunciation?
-              <Button onClick={() => setEditingEnunciation(!editingEnunciation)}
+              <Button onClick={handleEnunciationSave}
                 variant="contained" color="primary">Salvar</Button> :
               <Button onClick={props.onDelete}
                 variant="contained" color='secondary'>Deletar</Button>

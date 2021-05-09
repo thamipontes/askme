@@ -18,6 +18,7 @@ import ListCreatedQuizzesPage from
 import {Navbar} from 'react-bootstrap';
 import CreateQuizPage from './components/pages/quiz/createQuizPage';
 import EditQuizPage from './components/pages/quiz/editQuizPage';
+import QuizDetailsPage from './components/pages/quiz/quizDetailsPage';
 
 /**
 * Gets the App to render
@@ -41,19 +42,26 @@ function App() {
       </Navbar>
       <Router>
         <Switch>
-          <Route path="/signup">
-            <SignUpPage></SignUpPage>
+          <Route exact path="/signup">
+            <SignUpPage />
           </Route>
-          <Route path="/login">
-            <LoginPage></LoginPage>
+          <Route exact path="/login">
+            <LoginPage />
           </Route>
           <Route exact path="/quiz">
-            <ListCreatedQuizzesPage></ListCreatedQuizzesPage>
+            <ListCreatedQuizzesPage />
           </Route>
-          <Route path="/quiz/create" component={CreateQuizPage}>
+          <Route exact path="/quiz/create">
+            <CreateQuizPage />
+          </Route>
+          <Route exact path="/quiz/:id">
+            <QuizDetailsPage />
+          </Route>
+          <Route exact path="/quiz/:id/edit">
+            <EditQuizPage />
           </Route>
           <Route exact path="/test">
-            <EditQuizPage></EditQuizPage>
+            <EditQuizPage />
           </Route>
           <Redirect exact from="/" to="/login"></Redirect>
         </Switch>
