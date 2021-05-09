@@ -1,8 +1,9 @@
-import {Radio, Typography} from '@material-ui/core';
+import {Radio, Typography, Paper} from '@material-ui/core';
+import AddOutlined from '@material-ui/icons/AddOutlined';
 import {makeStyles} from '@material-ui/styles';
 import React, {useState} from 'react';
-import {TrueOrFalseOptions} from '../../../models/question/questionType';
 import PropTypes from 'prop-types';
+import EditableText from '../../utils/editableText';
 
 const useStyles = makeStyles({
   trueOrFalseItem: {
@@ -15,56 +16,78 @@ const useStyles = makeStyles({
   trueOrFalseLabel: {
     fontSize: 10,
   },
+  itemContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  addButton: {
+    width: '100%',
+    height: 30,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
 });
 
-const TrueOrFalseItemEditComponent = (props) => {
-  console.log('OK');
-  const classes = useStyles();
-  const [answer, setAnswer] = useState(TrueOrFalseOptions.Blank);
-
-  return (
-    <div className={classes.trueOrFalseItem}>
-      <Typography className={classes.trueOrFalseLabel}>T</Typography>
-      <Radio checked={answer===TrueOrFalseOptions.True}
-        onChange={() => setAnswer(TrueOrFalseOptions.True)}
-        className={classes.trueOrFalseRadio}/>
-      <Typography className={classes.trueOrFalseLabel}>F</Typography>
-      <Radio checked={answer===TrueOrFalseOptions.False}
-        onChange={() => setAnswer(TrueOrFalseOptions.False)}
-        className={classes.trueOrFalseRadio}/>
-      <Typography>Test</Typography>
-    </div>
-  );
-};
-
-TrueOrFalseItemEditComponent.propTypes = {
-  editing: PropTypes.bool,
-};
-
 const QuestionTrueOrFalseEditComponent = (props) => {
-  const [itemEditing] = useState(-1);
-  const [items] = useState(props.items);
-  console.log('OK');
+  const classes = useStyles();
+  const [itemEditing, setItemEditing] = useState(-1);
+  const [items, setItems] = useState(props.items);
+
+  const handleItemChange = (value) => {
+    const itemsTemp = items;
+
+    if (!value || value == '') {
+      itemsTemp.splice(itemEditing, 1);
+    } else {
+      itemsTemp[itemEditing] = value;
+    }
+
+    setItems(itemsTemp);
+    setItemEditing(-1);
+    props.onItemsChange(items);
+  };
+
+  const addItem = () => {
+    const itemsTemp = items;
+    itemsTemp.push('');
+    setItems(itemsTemp);
+    setItemEditing(items.length - 1);
+    props.onItemsChange(items);
+  };
 
   return (
     <React.Fragment>
       {
-        items.forEach((item, idx) => {
+        items.map((item, idx) => {
           return (
-            <React.Fragment key={idx}>
-              <TrueOrFalseItemEditComponent
-                editing={itemEditing == idx}>
-              </TrueOrFalseItemEditComponent>
-            </React.Fragment>
+            <div key={idx} className={classes.itemContainer}>
+              <Typography className={classes.trueOrFalseLabel}>V</Typography>
+              <Radio />
+              <Typography className={classes.trueOrFalseLabel}>F</Typography>
+              <Radio />
+              <EditableText key={idx} value={item}
+                onSave={handleItemChange}
+                editing={itemEditing===idx}
+                onEdit={() => setItemEditing(idx)}
+              />
+            </div>
           );
         })
       }
+      <Paper variant="outlined"
+        className={classes.addButton} onClick={addItem}>
+        <AddOutlined />
+      </Paper>
     </React.Fragment>
   );
 };
 
 QuestionTrueOrFalseEditComponent.propTypes = {
   items: PropTypes.arrayOf(PropTypes.string),
+  onItemsChange: PropTypes.func,
 };
 
 export default QuestionTrueOrFalseEditComponent;

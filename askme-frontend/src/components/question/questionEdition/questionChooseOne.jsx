@@ -1,16 +1,12 @@
 // eslint-disable-next-line max-len
-import {FormControl, FormControlLabel, RadioGroup, Radio, makeStyles, Paper, TextField, Typography} from '@material-ui/core';
+import {Radio, makeStyles, Paper} from '@material-ui/core';
 import AddOutlined from '@material-ui/icons/AddOutlined';
-import Check from '@material-ui/icons/Check';
-import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+// import Pencil from '../../utils/pencil';
+import EditableText from '../../utils/editableText';
 
 const useStyles = makeStyles({
-  pencil: {
-    marginLeft: 5,
-    height: 20,
-  },
   check: {
     marginLeft: 10,
   },
@@ -21,70 +17,31 @@ const useStyles = makeStyles({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 10,
+  },
+  itemContainer: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    margin: 5,
   },
 });
 
-const ItemEdition = (props) => {
-  const classes = useStyles();
-  const [value, setValue] = useState(props.label);
-  const check = <Check className={classes.check}
-    onClick={() => props.onSave(value)}></Check>;
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-
-  return (
-    props.editing?
-    <React.Fragment>
-      <Radio />
-      <TextField variant="outlined" autoFocus
-        onChange={handleChange}
-        value={value}
-      ></TextField>
-      {check}
-    </React.Fragment>:
-    <React.Fragment>
-      <Radio />
-      <Typography>{props.label}</Typography>
-    </React.Fragment>
-  );
-};
-
-ItemEdition.propTypes = {
-  editing: PropTypes.bool,
-  label: PropTypes.string,
-  onSave: PropTypes.func,
-};
-
-
-const Pencil = (props) => {
-  const classes = useStyles();
-
-  return (
-    <CreateOutlinedIcon onClick={props.onClick} className={classes.pencil}>
-    </CreateOutlinedIcon>
-  );
-};
-
-Pencil.propTypes = {
-  onClick: PropTypes.func,
-};
-
 const QuestionChooseOneEditComponent = (props) => {
   const classes = useStyles();
-  const [value] = useState('');
   const [items, setItems] = useState(props.items || []);
   const [itemEditing, setItemEditing] = useState(-1);
 
   const handleItemChange = (value) => {
+    const itemsTemp = items;
     if (!value || value === '') {
-      items.splice(itemEditing, 1);
+      itemsTemp.splice(itemEditing, 1);
     } else {
-      items[itemEditing] = value;
+      itemsTemp[itemEditing] = value;
     }
 
-    setItems(items);
+    console.log(itemsTemp);
+    setItems(itemsTemp);
     setItemEditing(-1);
     props.onItemsChange(items);
   };
@@ -97,32 +54,20 @@ const QuestionChooseOneEditComponent = (props) => {
 
   return (
     <React.Fragment>
-      <FormControl component="fieldset">
-        <RadioGroup value={value}>
-          {
-            items.map((opt, idx) => {
-              return (
-                <React.Fragment key={idx}>
-                  <FormControlLabel key={idx} value={opt}
-                    control={
-                      <React.Fragment>
-                        <ItemEdition editing={itemEditing==idx}
-                          label={opt}
-                          onSave={handleItemChange}
-                        />
-                        {
-                          itemEditing == idx?null:
-                          <Pencil onClick={() => setItemEditing(idx)}/>
-                        }
-                      </React.Fragment>
-                    }
-                  />
-                </React.Fragment>
-              );
-            })
-          }
-        </RadioGroup>
-      </FormControl>
+      {
+        items.map((opt, idx) => {
+          console.log(opt);
+          return (
+            <div key={idx} className={classes.itemContainer}>
+              <Radio />
+              <EditableText key={idx} value={opt}
+                editing={itemEditing===idx}
+                onSave={handleItemChange}
+                onEdit={() => setItemEditing(idx)} />
+            </div>
+          );
+        })
+      }
       <Paper variant="outlined" className={classes.addButton} onClick={addItem}>
         <AddOutlined />
       </Paper>

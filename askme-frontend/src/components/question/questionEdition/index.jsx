@@ -12,7 +12,6 @@ const useStyles = makeStyles({
   root: {
     paddingTop: 20,
     width: '90%',
-    maxWidth: 800,
     paddingBottom: 20,
   },
   title: {
@@ -51,29 +50,28 @@ const QuestionEditionComponent = (props) => {
       onClick={() => setEditingEnunciation(!editingEnunciation)}>
     </CreateOutlinedIcon>;
 
-
   const handleEnunciationChange = (event) => {
     setEnunciation(event.target.value);
+    props.onChanges(enunciation, items);
   };
 
   const handleItemsChange = (newItems) => {
     setItems(newItems);
-    console.log(items);
+    props.onChanges(enunciation, items);
   };
 
   const renderQuestionType = (type) => {
     switch (type) {
       case QuestionTypes.Open:
-        return <QuestionOpenEditComponent></QuestionOpenEditComponent>;
+        return <QuestionOpenEditComponent />;
       case QuestionTypes.ChooseOne:
         return <QuestionChooseOneEditComponent
           items={props.items}
-          onItemsChange={handleItemsChange}>
-        </QuestionChooseOneEditComponent>;
+          onItemsChange={handleItemsChange} />;
       case QuestionTypes.TrueOrFalse:
         return <QuestionTrueOrFalseEditComponent
-          items={props.items}>
-        </QuestionTrueOrFalseEditComponent>;
+          items={props.items}
+          onItemsChange={handleItemsChange} />;
     }
   };
 
@@ -128,6 +126,7 @@ QuestionEditionComponent.propTypes = {
   type: PropTypes.string,
   number: PropTypes.number,
   enunciation: PropTypes.string,
+  onChanges: PropTypes.func,
 };
 
 export default QuestionEditionComponent;
