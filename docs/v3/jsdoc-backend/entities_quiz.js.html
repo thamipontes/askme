@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: entities/quiz.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: entities/quiz.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// eslint-disable-next-line no-unused-vars
+const Question = require('./question');
+const xml2js = require('xml2js');
+
+/**
+ * Representa um questionário
+ */
+class Quiz {
+  /**
+   * Obtem o schema com as propriedades para salvar no banco
+   * @return {object}
+   */
+  static getSchema() {
+    return {
+      creatorId: String,
+      title: String,
+      isAnonymous: Boolean,
+      xml: String,
+    };
+  }
+
+  /**
+   * Construtor para Quiz
+   * @param {string} creatorId Id do usuário criador
+   * @param {string} title
+   * @param {boolean} isAnonymous
+   */
+  constructor(creatorId, title, isAnonymous) {
+    this.creatorId = creatorId;
+    this.title = title;
+    this.isAnonymous = isAnonymous;
+    this.questions = [];
+  }
+
+  /**
+   * Setter para id
+   * @param {string} id
+   */
+  setId(id) {
+    this.id = id;
+  }
+
+  /**
+   * Converte o questionário em um XML
+   * @return {string}
+   */
+  toXMLModel() {
+    return {
+      Quiz: {
+        Questions: this.questions.map((q) => q.toXMLModel()),
+      },
+    };
+  }
+
+  /**
+   * Obtem as questões do questionário de um XML
+   * @param {string} xml
+   */
+  async getQuestionsFromXML(xml) {
+    this.questions = [];
+    const result = await xml2js.parseStringPromise(xml, {trim: true});
+
+    if (result.Quiz?.Questions) {
+      result.Quiz.Questions.map(async (q) => {
+        const question = Question.fromXMLModel(q);
+        this.addQuestion(question, question.number);
+      });
+    }
+  }
+
+  /**
+   * Converte as propriedades da classe para um objeto
+   * @return {object}
+   */
+  toObject() {
+    const builder = new xml2js.Builder();
+
+    return {
+      creatorId: this.creatorId,
+      title: this.title,
+      isAnonymous: this.isAnonymous,
+      xml: builder.buildObject(this.toXMLModel()),
+    };
+  }
+
+  /**
+   * Valida as propriedades do questionário e retorna o resultado
+   * @return {boolean}
+   */
+  isValid() {
+    if (!this.title || !this.creatorId ||
+      this.isAnonymous == null || this.isAnonymous == undefined) {
+      return false;
+    }
+
+    if (this.title.length &lt; Quiz.titleMinLength ||
+        this.title.length > Quiz.titleMaxLength) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Adiciona uma questão ao questionário
+   * @param {Question} question
+   * @param {number} number
+   */
+  addQuestion(question, number = null) {
+    question.number = number? parseInt(number) : this.questions.length + 1;
+    this.questions.push(question);
+  }
+}
+
+Quiz.titleMinLength = 5;
+Quiz.titleMaxLength = 30;
+
+module.exports = Quiz;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ApiServerProvider.html">ApiServerProvider</a></li><li><a href="AuthorizationException.html">AuthorizationException</a></li><li><a href="EditQuizInfoCommand.html">EditQuizInfoCommand</a></li><li><a href="EditQuizQuestionsCommand.html">EditQuizQuestionsCommand</a></li><li><a href="MongooseProvider.html">MongooseProvider</a></li><li><a href="Question.html">Question</a></li><li><a href="QuestionItemModel.html">QuestionItemModel</a></li><li><a href="QuestionModel.html">QuestionModel</a></li><li><a href="Quiz.html">Quiz</a></li><li><a href="QuizCreateCommand.html">QuizCreateCommand</a></li><li><a href="QuizFullModel.html">QuizFullModel</a></li><li><a href="QuizModel.html">QuizModel</a></li><li><a href="QuizModelConverter.html">QuizModelConverter</a></li><li><a href="QuizRepository.html">QuizRepository</a></li><li><a href="QuizService.html">QuizService</a></li><li><a href="ServiceException.html">ServiceException</a></li><li><a href="TokenService.html">TokenService</a></li><li><a href="User.html">User</a></li><li><a href="UserCreateCommand.html">UserCreateCommand</a></li><li><a href="UserLoginCommand.html">UserLoginCommand</a></li><li><a href="UserRepository.html">UserRepository</a></li><li><a href="UserService.html">UserService</a></li><li><a href="ValidationException.html">ValidationException</a></li></ul><h3>Global</h3><ul><li><a href="global.html#apiResponse">apiResponse</a></li><li><a href="global.html#initAllRepositories">initAllRepositories</a></li><li><a href="global.html#mongooseProviderException">mongooseProviderException</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun May 09 2021 22:08:23 GMT-0300 (Brasilia Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

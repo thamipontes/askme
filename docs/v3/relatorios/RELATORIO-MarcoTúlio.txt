@@ -1,0 +1,3 @@
+07/05   | 1h    | Estudar aulas e laboratórios relacionados | Reunião com o João Tito para repassar alguns itens
+07/05   | 45min | Revisar código do módulo                  | Estudando o código já desenvolvido para aprender e entender melhor a linguagem
+08/05   | 30min | Revisar código do módulo                  | Estudando o código já desenvolvido para aprender e entender melhor a linguagem

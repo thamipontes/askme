@@ -1,0 +1,4 @@
+06/05   | 1h 25m    | Estudar aulas e laboratórios relacionados | Reunião com o Tito para instalar e começar o desenvolvimento
+08/05   | 25m       | Estudar aulas e laboratórios relacionados | Estudo de tecnologia por tutorial prático (pequenas coisas)
+08/05   | 30m       | Estudar aulas e laboratórios relacionados | Estudo de tecnologia por tutorial prático
+09/05   | 20m       | Estudar aulas e laboratórios relacionados | Estudo de tecnologia por tutorial prático (começando a fazer sentido)

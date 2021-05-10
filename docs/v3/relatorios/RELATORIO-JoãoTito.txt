@@ -1,0 +1,8 @@
+03/05   | 2h        | Codificação de módulos                    | Continuação da codificação da página de edição de questão
+04/05   | 1h 35m    | Codificação de módulos                    | Continuação da codificação da página de edição de questão
+06/05   | 50m       | Codificação de módulos                    | Continuação da codificação da página de edição de questão
+06/05   | 1h 10m    | Estudar aulas e laboratórios relacionados | Reunião com o Rafael para instalar as ferramentas e iniciar o desenvolvimento
+07/05   | 1h        | Estudar aulas e laboratórios relacionados | Reunião com o Marco Tulio para repassar algumas coisas
+08/05   | 3h        | Codificação de módulos                    | Continuação da codificação da página de edição de questão
+09/05   | 2h        | Codificação de módulos                    | Continuação da codificação da página de edição de questão
+09/05   | 2h        | Codificação de módulos                    | Codificação do fluxo comum para criar e editar as questões de um questionário

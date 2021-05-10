@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/question/questionEdition/index.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/question/questionEdition/index.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// eslint-disable-next-line max-len
+import {CardContent, Typography, Card, makeStyles, Container, TextField, CardActions, Button} from '@material-ui/core';
+import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
+import React, {useState} from 'react';
+import PropTypes from 'prop-types';
+import QuestionTypes from '../../../models/question/questionType';
+import QuestionOpenEditComponent from './questionOpenEdit';
+import QuestionChooseOneEditComponent from './questionChooseOne';
+import QuestionTrueOrFalseEditComponent from './questionTrueOrFalse';
+
+const useStyles = makeStyles({
+  root: {
+    paddingTop: 20,
+    width: '90%',
+    paddingBottom: 20,
+  },
+  title: {
+    marginBottom: 15,
+    fontSize: 15,
+  },
+  editText: {
+    marginBottom: 15,
+    fontSize: 12,
+  },
+  enunciation: {
+    fontSize: 17,
+    marginBottom: 20,
+  },
+  enunciationTextField: {
+    width: '100%',
+    marginBottom: 5,
+  },
+  pencil: {
+    marginLeft: 3,
+  },
+});
+
+/**
+ * Componente base para questões
+ * @return {React.Component}
+ * @param {*} props
+ */
+const QuestionEditionComponent = (props) => {
+  const [editingEnunciation, setEditingEnunciation] = useState(false);
+  const [enunciation, setEnunciation] = useState(props.enunciation);
+  const [items, setItems] = useState(props.items);
+  const classes = useStyles();
+  const pencil =
+    &lt;CreateOutlinedIcon className={classes.pencil}
+      onClick={() => setEditingEnunciation(!editingEnunciation)}>
+    &lt;/CreateOutlinedIcon>;
+
+  const handleEnunciationChange = (event) => {
+    setEnunciation(event.target.value);
+  };
+
+  const handleEnunciationSave = () => {
+    setEditingEnunciation(!editingEnunciation);
+    props.onChanges(enunciation, items);
+  };
+
+  const handleItemsChange = (newItems) => {
+    setItems(newItems);
+    props.onChanges(enunciation, items);
+  };
+
+  const renderQuestionType = (type) => {
+    switch (type) {
+      case QuestionTypes.Open:
+        return &lt;QuestionOpenEditComponent />;
+      case QuestionTypes.ChooseOne:
+        return &lt;QuestionChooseOneEditComponent
+          items={props.items}
+          onItemsChange={handleItemsChange} />;
+      case QuestionTypes.TrueOrFalse:
+        return &lt;QuestionTrueOrFalseEditComponent
+          items={props.items}
+          onItemsChange={handleItemsChange} />;
+    }
+  };
+
+  return (
+    &lt;Container className={classes.root}>
+      &lt;Card>
+        &lt;CardContent>
+          &lt;Typography className={classes.title} color='textSecondary'>
+            Questão {props.number}
+          &lt;/Typography>
+          {
+            editingEnunciation?
+              &lt;React.Fragment>
+                &lt;Typography className={classes.editText}>
+                  Digite o novo enunciado da questão:
+                &lt;/Typography>
+                &lt;TextField multiline label="Enunciado"
+                  value={enunciation || ''}
+                  rows={2} variant="outlined"
+                  onChange={handleEnunciationChange}
+                  className={classes.enunciationTextField}
+                  autoFocus>
+                &lt;/TextField>
+              &lt;/React.Fragment> :
+              &lt;React.Fragment>
+                &lt;Typography className={classes.enunciation}>
+                  {enunciation}
+                  {pencil}
+                &lt;/Typography>
+                {
+                  renderQuestionType(props.type)
+                }
+              &lt;/React.Fragment>
+          }
+        &lt;/CardContent>
+        &lt;CardActions>
+          {
+            editingEnunciation?
+              &lt;Button onClick={handleEnunciationSave}
+                variant="contained" color="primary">Salvar&lt;/Button> :
+              &lt;Button onClick={props.onDelete}
+                variant="contained" color='secondary'>Deletar&lt;/Button>
+          }
+        &lt;/CardActions>
+      &lt;/Card>
+    &lt;/Container>
+  );
+};
+
+QuestionEditionComponent.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.string),
+  type: PropTypes.string,
+  number: PropTypes.number,
+  enunciation: PropTypes.string,
+  onChanges: PropTypes.func,
+  onDelete: PropTypes.func,
+};
+
+export default QuestionEditionComponent;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="LoginPage.html">LoginPage</a></li><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#BoxedForm">BoxedForm</a></li><li><a href="global.html#createQuiz">createQuiz</a></li><li><a href="global.html#CreateQuizPage">CreateQuizPage</a></li><li><a href="global.html#createUser">createUser</a></li><li><a href="global.html#FormInput">FormInput</a></li><li><a href="global.html#getAuthToken">getAuthToken</a></li><li><a href="global.html#getQuizById">getQuizById</a></li><li><a href="global.html#listCreatedQuizzes">listCreatedQuizzes</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#QuestionEditionComponent">QuestionEditionComponent</a></li><li><a href="global.html#QuizItem">QuizItem</a></li><li><a href="global.html#setAuthToken">setAuthToken</a></li><li><a href="global.html#SignUpPage">SignUpPage</a></li><li><a href="global.html#updateQuizQuestions">updateQuizQuestions</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun May 09 2021 22:09:46 GMT-0300 (Brasilia Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
