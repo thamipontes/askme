@@ -26,6 +26,17 @@ const saveMock = jest.fn(async () => {
 
 const getQuizByQueryMock = jest.fn();
 
+const getQuizByIdMock = jest.fn(() => {
+  const mockedQuiz = new Quiz(
+      quizExampleData.creatorId,
+      quizExampleData.title,
+      quizExampleData.isAnonymous);
+
+  mockedQuiz.setId(quizExampleData.id);
+
+  return mockedQuiz;
+});
+
 beforeEach(() => {
   QuizRepository.mockReset();
   QuizRepository.save = saveMock;
@@ -81,5 +92,19 @@ test('getQuizById should call QuizRepository.getQuizById',
       await QuizService.getQuizzesByCreatorId('creatorId', 5, 6);
       expect(QuizRepository.getQuizzesByCreatorId)
           .toHaveBeenCalledWith('creatorId', 5, 6);
+    },
+);
+
+test('copyQuiz should copy quiz properly',
+    async () => {
+      QuizRepository.getQuizById = getQuizByIdMock;
+      const result = await QuizService.copyQuizById('quizId');
+
+      expect(result.isAnonymous).toBe(quizExampleData.isAnonymous);
+      expect(result.creatorId).toBe(quizExampleData.creatorId);
+      expect(result.id).toBe(quizExampleData.id);
+
+      expect(QuizRepository.getQuizById).toHaveBeenCalled();
+      expect(QuizRepository.save).toHaveBeenCalled();
     },
 );

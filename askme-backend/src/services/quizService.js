@@ -167,6 +167,21 @@ class QuizService {
 
     return quiz;
   }
+
+  /**
+   * Cria um quiz a partir de outro
+   * @param {string} id
+   * @return {QuizModel}
+   */
+  static async copyQuizById(id) {
+    const quiz = await QuizService.getQuizById(id);
+
+    quiz.title = quiz.title + '(cópia)';
+    const result = await QuizRepository.save(quiz);
+
+    return new QuizModel(
+        result.id, result.creatorId, result.title, result.isAnonymous);
+  }
 }
 
 module.exports = QuizService;
