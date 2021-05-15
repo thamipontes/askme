@@ -98,10 +98,9 @@ test('getQuizById should call QuizRepository.getQuizById',
 test('copyQuiz should copy quiz properly',
     async () => {
       QuizRepository.getQuizById = getQuizByIdMock;
-      const result = QuizService.copyQuizById('quizId');
+      const result = await QuizService.copyQuizById('quizId');
 
       expect(result.isAnonymous).toBe(quizExampleData.isAnonymous);
-      expect(result.title).toBe(quizExampleData.title + '(cópia)');
       expect(result.creatorId).toBe(quizExampleData.creatorId);
       expect(result.id).toBe(quizExampleData.id);
 
