@@ -12,6 +12,7 @@ class User { // issue: I-12
       email: String,
       name: String,
       password: String,
+      isAdmin: Boolean,
     };
   }
 
@@ -25,6 +26,7 @@ class User { // issue: I-12
     this.email = email;
     this.name = name;
     this.password = password;
+    this.isAdmin = false;
   }
 
   /**
@@ -45,6 +47,7 @@ class User { // issue: I-12
       email: this.email,
       name: this.name,
       password: this.password,
+      isAdmin: this.isAdmin,
     };
   }
 
