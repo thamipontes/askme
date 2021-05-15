@@ -44,6 +44,7 @@ class UserRepository {
           userSaved.name,
           userSaved.password,
       );
+      result.isAdmin = userSaved.isAdmin;
       result.setId(userSaved._id);
     } catch (err) {
       throw new Error(`Falha ao salvar usuário: ${err}`);
@@ -71,6 +72,7 @@ class UserRepository {
           queryResult.name,
           queryResult.password,
       );
+      result.isAdmin = queryResult.isAdmin? true : false;
       result.setId(queryResult._id);
     } catch (err) {
       throw new Error(`Falha ao obter usuário por query: ${err}`);
