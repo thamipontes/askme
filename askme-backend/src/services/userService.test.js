@@ -4,6 +4,8 @@ const UserCreateCommand = require('../models/user.createCommand');
 const User = require('../entities/user');
 const ValidationException = require('./validationException');
 const ServiceException = require('./serviceException');
+const UserLoginCommand = require('../models/user.loginCommand');
+const TokenService = require('./tokenService');
 
 jest.mock('../repositories/userRepository');
 
@@ -12,6 +14,7 @@ const userExampleData = {
   email: 'email',
   name: 'test',
   password: '123456789',
+  isAdmin: true,
 };
 
 const saveMock = jest.fn(async () => {
@@ -21,6 +24,7 @@ const saveMock = jest.fn(async () => {
       userExampleData.password,
   );
 
+  result.isAdmin = userExampleData.isAdmin;
   result.setId(userExampleData.id);
   return result;
 });
@@ -32,6 +36,7 @@ const getUserByQueryMock = jest.fn(async () => {
       userExampleData.password,
   );
 
+  result.isAdmin = userExampleData.isAdmin;
   result.setId(userExampleData.id);
   return result;
 });
@@ -115,6 +120,15 @@ test('getUserById should call UserRepository.getUserById',
         email: userExampleData.email,
         name: userExampleData.name,
         password: userExampleData.password,
+        isAdmin: userExampleData.isAdmin,
       });
     },
 );
+
+test('loginAdmin should generate valid admin token', async () => {
+  const result = await UserService.loginAdmin(
+      new UserLoginCommand(userExampleData.email, userExampleData.password));
+
+  const decoded = TokenService.decodeToken(result);
+  expect(decoded.role).toBe('admin');
+});
