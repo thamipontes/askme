@@ -61,6 +61,29 @@ class UserService {
   }
 
   /**
+   * Realiza login de usuário admin
+   * e retorna um token caso o login seja bem sucedido
+   * @param {UserLoginCommand} loginUserCommand
+   * @return {string} Token
+   */
+  static async loginAdmin(loginUserCommand) { // issue: I-32
+    const existingUser = await UserRepository.getUserByEmail(
+        loginUserCommand.email);
+
+    if (existingUser && !existingUser.isAdmin) {
+      throw new AuthorizationException(
+          'Este usuário não é administrador', {email: loginUserCommand.email});
+    }
+
+    if (existingUser && loginUserCommand.password === existingUser.password) {
+      return TokenService.generateToken(existingUser.id, true);
+    } else {
+      throw new AuthorizationException(
+          'Email ou senha incorretos', {email: loginUserCommand.email});
+    }
+  }
+
+  /**
    * Obtem um usuário pelo Id
    * @param {string} id
    */

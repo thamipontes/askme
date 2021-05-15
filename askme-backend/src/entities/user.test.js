@@ -45,6 +45,7 @@ test('toObject should return object with properties correctly set', () => {
     email: 'email',
     name: 'test',
     password: 'password',
+    isAdmin: false,
   });
 });
 
@@ -54,6 +55,7 @@ test('getSchema sould return the schema correctly according to the expected',
         email: String,
         name: String,
         password: String,
+        isAdmin: Boolean,
       });
     },
 );

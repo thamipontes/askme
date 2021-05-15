@@ -51,4 +51,27 @@ const userLoginHandler = async (req, res, next) => {
 };
 userRouter.post('/login', userLoginHandler);
 
+// issue: I-32
+const adminLoginHandler = async (req, res, next) => {
+  let result = null;
+
+  try {
+    result = await UserService.loginAdmin(
+        new UserLoginCommand(
+            req.body.email,
+            req.body.password,
+        ),
+    );
+  } catch (err) {
+    next(err);
+    return;
+  }
+
+  res.status(200);
+  res.send(apiResponse(true, 'Login realizado com sucesso!', {
+    token: result,
+  }));
+};
+userRouter.post('/login-admin', adminLoginHandler);
+
 module.exports = userRouter;
