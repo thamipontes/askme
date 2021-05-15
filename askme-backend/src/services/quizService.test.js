@@ -96,6 +96,7 @@ test('getQuizById should call QuizRepository.getQuizById',
 );
 
 test('copyQuiz should copy quiz properly',
+    // issue: I-37
     async () => {
       QuizRepository.getQuizById = getQuizByIdMock;
       const result = await QuizService.copyQuizById('quizId');

@@ -174,6 +174,7 @@ class QuizService {
    * @return {QuizModel}
    */
   static async copyQuizById(id) {
+    // issue: I-37
     const quiz = await QuizService.getQuizById(id);
 
     quiz.title = quiz.title + '(cópia)';
