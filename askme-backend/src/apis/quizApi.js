@@ -143,4 +143,34 @@ quizRouter.put('/:id/questions', async (req, res, next) => {
       true, 'Questionário atualizado com sucesso!', result.toObject()));
 });
 
+quizRouter.post('/:id/copy', async (req, res, next) => {
+  // issue: I-37
+  let result = null;
+
+  try {
+    const token = TokenService.getRequiredTokenFromRequest(req);
+    const creatorId = TokenService.getUserIdFromToken(token);
+
+    // Check quiz creator id
+    const originalQuiz = await QuizService.getQuizById(req.params.id);
+
+    if (originalQuiz.creatorId != creatorId) {
+      throw new AuthorizationException();
+    }
+
+    result = await QuizService.copyQuizById(req.params.id);
+
+    if (!result) {
+      throw new Error('Received null as result');
+    }
+  } catch (err) {
+    next(err);
+    return;
+  }
+
+  res.status(200);
+  res.send(apiResponse(true,
+      'Questionário criado com sucesso!', result.toObject()));
+});
+
 module.exports = quizRouter;
