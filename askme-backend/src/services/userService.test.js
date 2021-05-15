@@ -6,6 +6,7 @@ const ValidationException = require('./validationException');
 const ServiceException = require('./serviceException');
 const UserLoginCommand = require('../models/user.loginCommand');
 const TokenService = require('./tokenService');
+const AuthorizationException = require('./authorizationException');
 
 jest.mock('../repositories/userRepository');
 
@@ -37,6 +38,18 @@ const getUserByQueryMock = jest.fn(async () => {
   );
 
   result.isAdmin = userExampleData.isAdmin;
+  result.setId(userExampleData.id);
+  return result;
+});
+
+const getUserNotAdminByQueryMock = jest.fn(async () => {
+  const result = new User(
+      userExampleData.email,
+      userExampleData.name,
+      userExampleData.password,
+  );
+
+  result.isAdmin = false;
   result.setId(userExampleData.id);
   return result;
 });
@@ -131,4 +144,16 @@ test('loginAdmin should generate valid admin token', async () => {
 
   const decoded = TokenService.decodeToken(result);
   expect(decoded.role).toBe('admin');
+});
+
+test('loginAdmin should throw when user is not admin', async () => {
+  UserRepository.getUserByEmail = getUserNotAdminByQueryMock;
+
+  try {
+    await UserService.loginAdmin(
+        new UserLoginCommand(userExampleData.email, userExampleData.password));
+    fail('Exception expected');
+  } catch (err) {
+    expect(err instanceof AuthorizationException).toBe(true);
+  }
 });
