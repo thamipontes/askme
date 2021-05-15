@@ -139,6 +139,7 @@ test('getUserById should call UserRepository.getUserById',
 );
 
 test('loginAdmin should generate valid admin token', async () => {
+  // issue: I-32
   const result = await UserService.loginAdmin(
       new UserLoginCommand(userExampleData.email, userExampleData.password));
 
@@ -147,6 +148,7 @@ test('loginAdmin should generate valid admin token', async () => {
 });
 
 test('loginAdmin should throw when user is not admin', async () => {
+  // issue: I-32
   UserRepository.getUserByEmail = getUserNotAdminByQueryMock;
 
   try {
