@@ -3,6 +3,7 @@ const apiResponse = require('./apiResponse');
 const UserService = require('../services/userService');
 const UserCreateCommand = require('../models/user.createCommand');
 const UserLoginCommand = require('../models/user.loginCommand');
+const TokenService = require('../services/tokenService');
 
 // eslint-disable-next-line new-cap
 const userRouter = express.Router();
@@ -73,5 +74,23 @@ const adminLoginHandler = async (req, res, next) => {
   }));
 };
 userRouter.post('/login-admin', adminLoginHandler);
+
+const upgradeUserToAdminHandler = async (req, res, next) => {
+  let result = null;
+
+  try {
+    const token = TokenService.getRequiredTokenFromRequest(req);
+    TokenService.requireTokenToBeAdmin(token);
+    result = await UserService.upgrageToAdmin(req.params.id);
+  } catch (err) {
+    next(err);
+    return;
+  }
+
+  res.status(200);
+  res.send(apiResponse(true, 'Usuário atualizado com sucesso!',
+      result.toObject()));
+};
+userRouter.put('/:id/upgrade', upgradeUserToAdminHandler);
 
 module.exports = userRouter;

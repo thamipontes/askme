@@ -28,6 +28,39 @@ class UserRepository {
   }
 
   /**
+   * Atualiza um usuário no banco e retorna
+   * uma instância de User como o resultado
+   * @param {User} user
+   * @return {User}
+   */
+  static async update(user) { // issue: I-30
+    let result = null;
+    try {
+      console.log(user.id);
+      const originalUser = await this.Model.findById(user.id);
+
+      console.log(originalUser);
+
+      Object.assign(originalUser, user.toObject());
+
+      const userSaved = await originalUser.save();
+
+      result = new User(
+          userSaved.email,
+          userSaved.name,
+          userSaved.password,
+      );
+
+      result.isAdmin = userSaved.isAdmin;
+      result.setId(userSaved._id);
+    } catch (err) {
+      throw new Error(`Falha ao atualizar usuário: ${err}`);
+    }
+
+    return result;
+  }
+
+  /**
    * Salva um usuário no banco e retorna uma instância de User como o resultado
    * @param {User} user
    * @return {User}
@@ -96,7 +129,7 @@ class UserRepository {
    * @return {User}
    */
   static async getUserById(id) {
-    return this.getOneUserWithQuery({_id: id});
+    return await this.getOneUserWithQuery({_id: id});
   }
 }
 
