@@ -27,7 +27,9 @@ beforeAll(() => {
   userModelMockInstance.save = jest.fn(() => saveResult);
 
   const findOneResult = saveResult;
+  findOneResult.save = jest.fn(() => userExampleData);
   userModelMock.findOne = jest.fn(() => findOneResult);
+  userModelMock.findById = jest.fn(() => findOneResult);
 
   userModelMockInstanceExceptions.save = jest.fn(() => {
     throw new Error();
@@ -84,3 +86,22 @@ test('getUserByEmail should return user correctly', async () => {
   expect(userModelMock.findOne).toHaveBeenCalledWith({
     email: userExampleData.email});
 });
+
+test('update should call model findById, save and return the result',
+    async () => {
+      UserRepository.model = userModelMock;
+
+      const user = new User(userExampleData.email,
+          userExampleData.name, userExampleData.password);
+      user.setId('ok');
+
+      const result = await UserRepository.update(user);
+      expect(result.id).toBe('idUserExample');
+      expect(result.email).toBe(userExampleData.email);
+      expect(result.name).toBe(userExampleData.name);
+      expect(result.password).toBe(userExampleData.password);
+
+      expect(userModelMock.findById).toHaveBeenCalledWith(user.id);
+      expect(userModelMock.findById).toHaveBeenCalledTimes(1);
+    },
+);

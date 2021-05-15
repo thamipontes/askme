@@ -159,3 +159,8 @@ test('loginAdmin should throw when user is not admin', async () => {
     expect(err instanceof AuthorizationException).toBe(true);
   }
 });
+
+test('upgradeToAdmin should upgrade user correctly', async () => {
+  await UserService.upgrageToAdmin(userExampleData.id);
+  expect(UserRepository.update).toHaveBeenCalled();
+});

@@ -84,6 +84,25 @@ class UserService {
   }
 
   /**
+   * Atualiza um usuário para administrador
+   * @param {string} userId
+   * @return {User}
+   */
+  static async upgrageToAdmin(userId) {
+    // issue: I-30
+    const user = await UserRepository.getUserById(userId);
+
+    if (!user) {
+      throw new ServiceException('Usuário não encontrado');
+    }
+
+    user.isAdmin = true;
+    console.log(user.id);
+
+    return await UserRepository.update(user);
+  }
+
+  /**
    * Obtem um usuário pelo Id
    * @param {string} id
    */
