@@ -45,5 +45,24 @@ export default class UserService {
         },
     );
   }
+
+  /**
+   * Realiza requisição de login de administrador
+   * @param {string} email
+   * @param {string} password
+   */
+  static async loginAdmin(email, password) {
+    // issue: I-32
+    await API.post(`${apiRoute}/login-admin`, {
+      email: email,
+      password: password,
+    }).then(
+        (res) => {
+          const token = res.data.data.token;
+          TokenService.setAuthToken(token);
+          return res;
+        },
+    );
+  }
 }
 
