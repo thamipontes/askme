@@ -75,6 +75,7 @@ const adminLoginHandler = async (req, res, next) => {
 };
 userRouter.post('/login-admin', adminLoginHandler);
 
+// issue: I-30
 const upgradeUserToAdminHandler = async (req, res, next) => {
   let result = null;
 
@@ -92,5 +93,24 @@ const upgradeUserToAdminHandler = async (req, res, next) => {
       result.toObject()));
 };
 userRouter.put('/:id/upgrade', upgradeUserToAdminHandler);
+
+const listUsersHandler = async (req, res, next) => {
+  let result = null;
+
+  try {
+    const token = TokenService.getRequiredTokenFromRequest(req);
+    TokenService.requireTokenToBeAdmin(token);
+    result = await UserService.listUsers(
+        parseInt(req.query.offset), parseInt(req.query.limit));
+  } catch (err) {
+    next(err);
+    return;
+  }
+
+  res.status(200);
+  res.send(apiResponse(true, 'Usuários listados com sucesso!',
+      result.map( ( u ) => u.toObject() )));
+};
+userRouter.get('/', listUsersHandler);
 
 module.exports = userRouter;

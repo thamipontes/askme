@@ -45,12 +45,10 @@ class UserRepository {
     let result = null;
 
     try {
-      const queryResult = await this.Model.find(query, null,
-          {
-            skip: offset,
-            limit: limit>maxLimit? maxLimit:limit,
-          },
-      ).exec();
+      const queryResult = await this.Model.find(query, null, null)
+          .skip(offset)
+          .limit(limit > maxLimit ? maxLimit : limit)
+          .exec();
 
       if (queryResult==null) {
         return null;
