@@ -19,6 +19,7 @@ import {Navbar} from 'react-bootstrap';
 import CreateQuizPage from './components/pages/quiz/createQuizPage';
 import EditQuizPage from './components/pages/quiz/editQuizPage';
 import QuizDetailsPage from './components/pages/quiz/quizDetailsPage';
+import AdminLoginPage from './components/pages/adminLoginPage';
 
 /**
 * Gets the App to render
@@ -60,8 +61,8 @@ function App() {
           <Route exact path="/quiz/:id/edit">
             <EditQuizPage />
           </Route>
-          <Route exact path="/test">
-            <EditQuizPage />
+          <Route exac path="/admin">
+            <AdminLoginPage />
           </Route>
           <Redirect exact from="/" to="/login"></Redirect>
         </Switch>
