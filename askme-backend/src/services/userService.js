@@ -115,6 +115,20 @@ class UserService {
 
     return existingUser;
   }
+
+  /**
+   * Lista os usuários
+   * @param {number} offset
+   * @param {number} limit
+   * @return {User[]}
+   */
+  static async listUsers(offset, limit) {
+    if (limit < 0 || offset < 0) {
+      return [];
+    }
+
+    return await UserRepository.getUsersByQuery({}, offset, limit);
+  }
 }
 
 module.exports = UserService;

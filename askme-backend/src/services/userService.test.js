@@ -18,6 +18,31 @@ const userExampleData = {
   isAdmin: true,
 };
 
+const multipleUsersExampleData = [
+  {
+    email: 'email',
+    name: 'test',
+    password: '123456789',
+    isAdmin: false,
+    _id: 'userId1',
+  },
+  {
+    email: 'email2',
+    name: 'test2',
+    password: '123456789',
+    isAdmin: false,
+    _id: 'userId2',
+  },
+  {
+    email: 'email3',
+    name: 'test3',
+    password: '123456789',
+    isAdmin: true,
+    _id: 'userId3',
+  },
+];
+
+
 const saveMock = jest.fn(async () => {
   const result = new User(
       userExampleData.email,
@@ -28,6 +53,23 @@ const saveMock = jest.fn(async () => {
   result.isAdmin = userExampleData.isAdmin;
   result.setId(userExampleData.id);
   return result;
+});
+
+const getUsersByQueryMock = jest.fn(async () => {
+  const users = multipleUsersExampleData.map((u) => {
+    const user = new User(
+        u.email,
+        u.name,
+        u.password,
+    );
+
+    user.isAdmin = u.isAdmin;
+    user.setId(u._id);
+
+    return user;
+  });
+
+  return users;
 });
 
 const getUserByQueryMock = jest.fn(async () => {
@@ -163,4 +205,23 @@ test('loginAdmin should throw when user is not admin', async () => {
 test('upgradeToAdmin should upgrade user correctly', async () => {
   await UserService.upgrageToAdmin(userExampleData.id);
   expect(UserRepository.update).toHaveBeenCalled();
+});
+
+test('listUsers should list users correctly', async () => {
+  UserRepository.getUsersByQuery = getUsersByQueryMock;
+  const result = await UserService.listUsers(3, 5);
+
+  expect(result.map((u) => u.toObject())).toStrictEqual(
+      multipleUsersExampleData.map((u) => {
+        return {
+          email: u.email,
+          name: u.name,
+          password: u.password,
+          isAdmin: u.isAdmin,
+          id: u._id,
+        };
+      }),
+  );
+
+  expect(UserRepository.getUsersByQuery).toHaveBeenCalled();
 });
