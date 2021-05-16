@@ -2,6 +2,8 @@ const User = require('../entities/user');
 // eslint-disable-next-line no-unused-vars
 const mongoose = require('mongoose');
 
+const maxLimit = 20;
+
 /**
  * Implementa padrão de repositórios para a entidade usuário
  */
@@ -28,6 +30,53 @@ class UserRepository {
   }
 
   /**
+   * Obtem os usuários por meio de uma query (paginado)
+   * @param {object} query
+   * @param {number} offset
+   * @param {number} limit
+   * @return {User[]}
+   */
+  static async getUsersByQuery(query, offset, limit) {
+    // issue: I-23
+    if (limit < 0) {
+      return null;
+    }
+
+    let result = null;
+
+    try {
+      const queryResult = await this.Model.find(query, null,
+          {
+            skip: offset,
+            limit: limit>maxLimit? maxLimit:limit,
+          },
+      ).exec();
+
+      if (queryResult==null) {
+        return null;
+      }
+
+      result = queryResult.map((userModel) => {
+        const user = new User(
+            userModel.email,
+            userModel.name,
+            userModel.password,
+        );
+
+        user.isAdmin = userModel.isAdmin? true : false;
+        user.setId(userModel._id);
+
+        return user;
+      });
+    } catch (err) {
+      throw new Error(`Falha ao obter usuários por query: ${err}`);
+    }
+
+    return result;
+  }
+
+
+  /**
    * Atualiza um usuário no banco e retorna
    * uma instância de User como o resultado
    * @param {User} user
@@ -36,10 +85,7 @@ class UserRepository {
   static async update(user) { // issue: I-30
     let result = null;
     try {
-      console.log(user.id);
       const originalUser = await this.Model.findById(user.id);
-
-      console.log(originalUser);
 
       Object.assign(originalUser, user.toObject());
 
