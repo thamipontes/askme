@@ -19,6 +19,30 @@ const userExampleData = {
   password: '123456789',
 };
 
+const multipleUsersExampleData = [
+  {
+    email: 'email',
+    name: 'test',
+    password: '123456789',
+    isAdmin: false,
+    _id: 'userId1',
+  },
+  {
+    email: 'email2',
+    name: 'test2',
+    password: '123456789',
+    isAdmin: false,
+    _id: 'userId2',
+  },
+  {
+    email: 'email3',
+    name: 'test3',
+    password: '123456789',
+    isAdmin: true,
+    _id: 'userId3',
+  },
+];
+
 beforeAll(() => {
   mongooseMock.Schema = schemaMock;
   mongooseMock.model = modelMock;
@@ -29,6 +53,10 @@ beforeAll(() => {
   const findOneResult = saveResult;
   findOneResult.save = jest.fn(() => userExampleData);
   userModelMock.findOne = jest.fn(() => findOneResult);
+
+  const findMock = jest.fn();
+  findMock.exec = jest.fn(() => multipleUsersExampleData);
+  userModelMock.find = jest.fn(() => findMock);
   userModelMock.findById = jest.fn(() => findOneResult);
 
   userModelMockInstanceExceptions.save = jest.fn(() => {
@@ -105,3 +133,18 @@ test('update should call model findById, save and return the result',
       expect(userModelMock.findById).toHaveBeenCalledTimes(1);
     },
 );
+
+test('getUsersByQuery should call model find properly', async () => {
+  UserRepository.model = userModelMock;
+
+  const result = await UserRepository.getUsersByQuery(
+      {name: 'abacaxi'}, 3, 5);
+
+  result.forEach((u, idx) => {
+    expect(u.name).toBe(multipleUsersExampleData[idx].name);
+    expect(u.email).toBe(multipleUsersExampleData[idx].email);
+    expect(u.password).toBe(multipleUsersExampleData[idx].password);
+    expect(u.id).toBe(multipleUsersExampleData[idx]._id);
+    expect(u.isAdmin).toBe(multipleUsersExampleData[idx].isAdmin);
+  });
+});
