@@ -1,0 +1,4 @@
+15/05   | 1h 30m  | Codificação de módulos  | Codificação da cópia de questionário e de funções de administrador no backend
+15/05   | 40m     | Codificação de módulos  | Codificação da elevação de privilégios no backend
+16/05   | 1h      | Codificação de módulos  | Codificação da listagem de usuários para administrador no backend
+16/05   | 1h      | Codificação de módulos  | Codificação da página de login de administrador
